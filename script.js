@@ -60,7 +60,15 @@
     section.innerHTML = `
       <div class="container">
         <div class="main-video-shell">
-          <div class="main-video-slot" data-wistia-slot="main" aria-label="Vídeo de apresentação"></div>
+          <div class="main-video-slot" data-wistia-slot="main" aria-label="Vídeo de apresentação">
+            <img
+              class="main-video-cover"
+              src="/assets/capa-video-home.png"
+              alt="Aperte o play"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
         </div>
         <div class="section-cta">
           <a class="text-cta" href="#ofertas">QUERO FACILITAR MINHA ROTINA <span aria-hidden="true">→</span></a>
@@ -95,6 +103,15 @@
           radial-gradient(circle at 50% 45%,rgba(49,190,125,.10),transparent 42%),
           linear-gradient(145deg,#f8fbf9,#eef7f2);
       }
+      .main-video-cover{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        border-radius:12px;
+        display:block;
+      }
       .main-video-slot iframe,
       .main-video-slot wistia-player,
       .main-video-slot .wistia_embed{
@@ -106,27 +123,7 @@
         border-radius:12px!important;
         overflow:hidden!important;
         display:block!important;
-      }
-      .main-video-slot:empty::before{
-        content:"";
-        width:72px;
-        height:72px;
-        border:1px solid rgba(15,111,70,.22);
-        border-radius:50%;
-        background:rgba(255,255,255,.72);
-        box-shadow:0 10px 26px rgba(15,111,70,.10);
-      }
-      .main-video-slot:empty::after{
-        content:"";
-        position:absolute;
-        left:50%;
-        top:50%;
-        transform:translate(-38%,-50%);
-        width:0;
-        height:0;
-        border-top:11px solid transparent;
-        border-bottom:11px solid transparent;
-        border-left:17px solid var(--green-dark);
+        z-index:2;
       }
       .main-video-section .section-cta{
         margin-top:24px;
@@ -135,8 +132,7 @@
         .main-video-section{padding:36px 0 38px}
         .main-video-shell{padding:4px;border-radius:14px}
         .main-video-slot{border-radius:10px}
-        .main-video-slot:empty::before{width:56px;height:56px}
-        .main-video-slot:empty::after{border-top-width:8px;border-bottom-width:8px;border-left-width:13px}
+        .main-video-cover{border-radius:10px}
       }
     `;
     document.head.appendChild(style);
@@ -156,6 +152,7 @@
   function configureWistia() {
     const main = document.querySelector('[data-wistia-slot="main"]');
     if (main && cfg.WISTIA_VIDEO_PRINCIPAL) {
+      main.innerHTML = "";
       main.appendChild(wistiaEmbed(cfg.WISTIA_VIDEO_PRINCIPAL));
     }
 
