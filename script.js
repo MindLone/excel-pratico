@@ -138,6 +138,98 @@
     document.head.appendChild(style);
   }
 
+  function configureReviewVideoSection() {
+    const section = document.querySelector(".package-overview");
+    const oldGrid = section?.querySelector(".overview-grid");
+    if (!section || !oldGrid) return;
+
+    oldGrid.className = "review-video-grid";
+    oldGrid.innerHTML = `
+      <div class="review-video-shell">
+        <div class="review-video-slot" data-wistia-slot="review-1" aria-label="Avaliação em vídeo 1"></div>
+      </div>
+      <div class="review-video-shell">
+        <div class="review-video-slot" data-wistia-slot="review-2" aria-label="Avaliação em vídeo 2"></div>
+      </div>
+    `;
+
+    const style = document.createElement("style");
+    style.textContent = `
+      .package-overview .review-video-grid{
+        width:min(100%,1080px);
+        margin:34px auto 0;
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:22px;
+        align-items:center;
+      }
+      .review-video-shell{
+        position:relative;
+        padding:5px;
+        border:1px solid rgba(94,224,159,.52);
+        border-radius:17px;
+        background:linear-gradient(145deg,rgba(88,217,152,.13),rgba(255,255,255,.025));
+        box-shadow:0 20px 50px rgba(0,0,0,.22),0 0 0 1px rgba(255,255,255,.025) inset;
+      }
+      .review-video-slot{
+        position:relative;
+        width:100%;
+        aspect-ratio:16/9;
+        overflow:hidden;
+        display:grid;
+        place-items:center;
+        border-radius:12px;
+        background:
+          radial-gradient(circle at 50% 45%,rgba(76,218,147,.13),transparent 35%),
+          linear-gradient(145deg,#10271d,#08140f);
+      }
+      .review-video-slot iframe,
+      .review-video-slot wistia-player,
+      .review-video-slot .wistia_embed{
+        position:absolute!important;
+        inset:0!important;
+        width:100%!important;
+        height:100%!important;
+        border:0!important;
+        border-radius:12px!important;
+        overflow:hidden!important;
+        display:block!important;
+      }
+      .review-video-slot:empty::before{
+        content:"";
+        width:62px;
+        height:62px;
+        border-radius:50%;
+        border:1px solid rgba(95,224,159,.38);
+        background:rgba(255,255,255,.055);
+        box-shadow:0 10px 30px rgba(0,0,0,.22),0 0 25px rgba(88,217,152,.08);
+      }
+      .review-video-slot:empty::after{
+        content:"";
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-38%,-50%);
+        width:0;
+        height:0;
+        border-top:9px solid transparent;
+        border-bottom:9px solid transparent;
+        border-left:14px solid #61dfa0;
+      }
+      @media (max-width:760px){
+        .package-overview .review-video-grid{
+          width:min(100%,580px);
+          grid-template-columns:1fr;
+          gap:16px;
+          margin-top:26px;
+        }
+        .review-video-shell{padding:4px;border-radius:14px}
+        .review-video-slot{border-radius:10px}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function wistiaEmbed(mediaId, ratio = "16 / 9") {
     const frame = document.createElement("iframe");
     frame.src = `https://fast.wistia.net/embed/iframe/${encodeURIComponent(mediaId)}?seo=false&videoFoam=true`;
@@ -156,23 +248,24 @@
       main.appendChild(wistiaEmbed(cfg.WISTIA_VIDEO_PRINCIPAL));
     }
 
-    const ids = [cfg.WISTIA_DEPOIMENTO_1, cfg.WISTIA_DEPOIMENTO_2].filter(Boolean);
-    const section = document.querySelector("[data-testimonials]");
-    const grid = document.querySelector("[data-testimonial-grid]");
-    if (section && grid && ids.length) {
-      ids.forEach((id) => {
-        const wrap = document.createElement("div");
-        wrap.className = "testimonial-video";
-        wrap.appendChild(wistiaEmbed(id));
-        grid.appendChild(wrap);
-      });
-      section.hidden = false;
-    }
+    const reviewSlots = [
+      [document.querySelector('[data-wistia-slot="review-1"]'), cfg.WISTIA_DEPOIMENTO_1],
+      [document.querySelector('[data-wistia-slot="review-2"]'), cfg.WISTIA_DEPOIMENTO_2]
+    ];
+
+    reviewSlots.forEach(([slot, mediaId]) => {
+      if (!slot || !mediaId) return;
+      slot.innerHTML = "";
+      slot.appendChild(wistiaEmbed(mediaId));
+    });
+
+    const legacySection = document.querySelector("[data-testimonials]");
+    if (legacySection) legacySection.hidden = true;
   }
 
   function revealOnScroll() {
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const targets = document.querySelectorAll(".benefit-card, .gallery-card, .overview-grid article, .price-card, .guarantee-card");
+    const targets = document.querySelectorAll(".benefit-card, .gallery-card, .review-video-shell, .price-card, .guarantee-card");
     targets.forEach((el) => el.classList.add("reveal"));
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
@@ -189,6 +282,7 @@
   configureCheckoutLinks();
   configureFaq();
   configureMainVideoSection();
+  configureReviewVideoSection();
   configureWistia();
   revealOnScroll();
 })();
