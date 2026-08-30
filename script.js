@@ -12,7 +12,7 @@
       day: "2-digit",
       month: "long"
     }).format(new Date());
-    target.textContent = `CONDIÇÃO ESPECIAL DISPONÍVEL HOJE, ${formatted.toUpperCase()} — PAGAMENTO ÚNICO`;
+    target.innerHTML = `🔥 PROMOÇÃO DE <span style="display:inline-block;padding:2px 7px;margin:0 3px;border-radius:4px;background:#e30613;color:#ffe600;font-weight:900;box-shadow:0 0 0 1px rgba(255,230,0,.12) inset;">75% DE DESCONTO</span> SOMENTE HOJE, ${formatted.toUpperCase()}`;
   }
 
   function updateYear() {
