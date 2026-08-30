@@ -1,74 +1,71 @@
 # Planilhas Práticas
 
-Landing page mobile-first para a oferta Planilhas Práticas. O projeto foi feito com HTML, CSS e JavaScript puros para carregar rápido e ser simples de editar.
+Landing page de vendas estática, mobile-first, feita em HTML, CSS e JavaScript puros para manter carregamento rápido e edição simples.
 
 ## Estrutura
 
 ```text
 .
-├── index.html                         # Página principal
-├── styles.css                        # Todo o visual do site
-├── script.js                         # Data da oferta e links dos checkouts
+├── index.html                         # Landing page principal
+├── config.js                          # Preços, checkouts, e-mail e IDs da Wistia
+├── styles.css                         # Sistema visual e responsividade
+├── script.js                         # Interações, Wistia, FAQ e data da oferta
 ├── assets/
-│   ├── dashboards/                   # Imagens dos dashboards
+│   ├── dashboards/                   # 12 dashboards reais
+│   ├── planilhas/                    # 4 planilhas reais
 │   ├── logo-fundo-claro.webp
 │   ├── logo-fundo-escuro.webp
 │   ├── plano-basico.webp
 │   └── plano-completo.webp
-├── upgrade-planilhas/index.html      # Oferta de upgrade por R$ 15
+├── upgrade-planilhas/index.html      # Oferta auxiliar de upgrade
 ├── politica-de-privacidade/index.html
-└── vercel.json                       # Configuração de publicação e cache
+└── vercel.json
 ```
 
-## Onde alterar os links de checkout
+## Configuração rápida
 
-Abra `script.js` e cole os três links no começo do arquivo:
+As informações variáveis ficam em `config.js`:
 
 ```js
-const LINKS = {
-  checkoutCompleto: "COLE_AQUI",
-  checkoutUpgrade: "COLE_AQUI",
-  checkoutBasico: "COLE_AQUI",
-};
+window.SITE_CONFIG = Object.freeze({
+  PRECO_BASICO: "10",
+  LINK_BASICO: "",
+  PRECO_COMPLETO: "37",
+  LINK_COMPLETO: "",
+  LINK_UPGRADE: "",
+  EMAIL_SUPORTE: "academiadigital10@gmail.com",
+  WISTIA_HERO: "",
+  WISTIA_DEPOIMENTO_1: "",
+  WISTIA_DEPOIMENTO_2: ""
+});
 ```
 
-Enquanto os links estiverem vazios, os botões exibem uma mensagem de que o checkout será adicionado em breve.
+Use URLs HTTPS reais nos três campos `LINK_*`. Enquanto um checkout não estiver configurado, o respectivo botão não é exibido publicamente; o site não mostra link falso nem mensagem de placeholder.
 
-## Onde adicionar os vídeos da Wistia
+Para os vídeos, informe somente o **Media ID** da Wistia. O vídeo principal é incorporado em 9:16 e os dois depoimentos em 16:9. Se os IDs estiverem vazios, essas áreas permanecem ocultas.
 
-No `index.html`, procure por `WISTIA`. Existem três comentários bem visíveis:
+## Rotas
 
-- Vídeo principal: vertical, proporção 9:16;
-- Depoimento 01: horizontal, proporção 16:9;
-- Depoimento 02: horizontal, proporção 16:9.
+- `/` — landing page principal
+- `/upgrade-planilhas/` — upgrade do Plano Básico
+- `/politica-de-privacidade/` — Política de Privacidade
+- `/upgarade-planilhas/` — redireciona permanentemente para a rota correta, preservando links antigos
 
-Substitua o bloco `video-placeholder` correspondente pelo código de incorporação fornecido pela Wistia. Não use código configurado para abrir em outra página ou pop-up.
-
-## Como adicionar as quatro planilhas restantes
-
-1. Converta cada imagem para WebP e salve em `assets/dashboards/`;
-2. Abra `index.html`;
-3. Procure por `PLANILHAS 01–04`;
-4. Troque cada card de “Imagem em breve” por um card igual aos dashboards anteriores.
-
-## Testar no computador
-
-Na pasta do projeto, execute:
+## Teste local
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Depois abra `http://localhost:4173`.
+Abra `http://localhost:4173`.
 
-## Publicação
+## Vercel
 
-O site é estático e não possui etapa de compilação. Ao conectar este repositório ao Vercel, mantenha o diretório raiz como `./` e deixe o framework como “Other”.
+O projeto não possui etapa de build. Na Vercel, use o diretório raiz `./` e framework `Other`. O projeto já contém cache longo para imagens e headers básicos em `vercel.json`.
 
-## Pendências antes de anunciar
+## Antes de iniciar tráfego pago
 
-- Adicionar os três links de checkout;
-- Incorporar os três vídeos da Wistia;
-- Adicionar `PLANILHA_01` a `PLANILHA_04`;
-- Configurar domínio e ferramenta de métricas/anúncios;
-- Revisar a Política de Privacidade depois de escolher checkout, métricas e pixels definitivos.
+1. Preencher os três links reais de checkout em `config.js`.
+2. Preencher os IDs reais da Wistia quando os vídeos estiverem disponíveis.
+3. Validar pixels/métricas e a política de privacidade conforme os serviços efetivamente utilizados.
+4. Fazer uma compra de teste em cada fluxo antes de anunciar.
