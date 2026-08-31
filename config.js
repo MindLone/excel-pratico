@@ -118,9 +118,21 @@ const pricingSubtitle = document.querySelector(".pricing .section-heading > p:la
 if (pricingSubtitle) {
   pricingSubtitle.innerHTML = 'Mais de <b>75 MIL planilhas</b>, acesso <b>vitalício</b>, dashboards, atualizações e <b>todos os bônus</b> por apenas R$19,90.';
 }
-const completePrice = document.querySelector(".price-row-complete strong");
-if (completePrice) {
-  completePrice.innerHTML = '<small>R$</small> 19,90';
+
+// Reforça a ancoragem e o parcelamento real do Pacote Completo.
+const completePriceRow = document.querySelector(".price-row-complete");
+if (completePriceRow) {
+  completePriceRow.innerHTML = `
+    <div class="premium-price-offer">
+      <div class="premium-promo-ribbon">46% DE PROMOÇÃO SOMENTE HOJE</div>
+      <div class="premium-old-price">De <span>R$37,00</span></div>
+      <div class="premium-installment" aria-label="4 parcelas de 5 reais e 82 centavos">
+        <span class="premium-installment-count">4x de</span>
+        <strong>R$5,82</strong>
+      </div>
+      <div class="premium-cash-price">ou <strong>R$19,90 à vista</strong></div>
+    </div>
+  `;
 }
 
 const siteEnhancementStyle = document.createElement("style");
@@ -139,6 +151,39 @@ siteEnhancementStyle.textContent = `
     .price-complete {
       order: -1;
     }
+
+    .premium-price-offer {
+      padding: 20px 10px 17px;
+    }
+
+    .premium-promo-ribbon {
+      width: min(100%, 300px);
+      font-size: 10px;
+      letter-spacing: .065em;
+    }
+
+    .premium-old-price {
+      margin-top: 17px;
+      font-size: 13px;
+    }
+
+    .premium-installment {
+      margin-top: 7px;
+      gap: 7px;
+    }
+
+    .premium-installment-count {
+      font-size: clamp(25px, 8vw, 32px) !important;
+    }
+
+    .premium-installment strong {
+      font-size: clamp(48px, 15.2vw, 63px) !important;
+    }
+
+    .premium-cash-price {
+      margin-top: 9px;
+      font-size: 13px;
+    }
   }
 
   @media (min-width: 940px) {
@@ -154,6 +199,18 @@ siteEnhancementStyle.textContent = `
 
     .price-complete {
       transform: translateY(-8px) scale(1.018);
+    }
+
+    .premium-price-offer {
+      padding: 24px 14px 20px;
+    }
+
+    .premium-installment-count {
+      font-size: 31px !important;
+    }
+
+    .premium-installment strong {
+      font-size: 68px !important;
     }
   }
 
@@ -223,6 +280,7 @@ siteEnhancementStyle.textContent = `
   .price-complete {
     isolation: isolate;
     overflow: visible;
+    color: #101612 !important;
     border: 2px solid #23b974 !important;
     background: linear-gradient(180deg, #ffffff 0%, #fbfffd 100%) !important;
     box-shadow:
@@ -263,12 +321,25 @@ siteEnhancementStyle.textContent = `
   }
 
   .price-complete .plan-kicker {
-    color: #118352;
+    color: #0c7446;
   }
 
   .price-complete .plan-head h3 {
-    color: #102d20;
+    color: #07100b !important;
     text-shadow: 0 1px 0 rgba(255,255,255,.9);
+  }
+
+  .price-complete .plan-head p:last-child,
+  .price-complete .feature-list li,
+  .price-complete .bonus-panel,
+  .price-complete .bonus-panel ol,
+  .price-complete .bonus-panel li {
+    color: #1a211d !important;
+  }
+
+  .price-complete .feature-list li strong,
+  .price-complete .bonus-title h4 {
+    color: #07100b !important;
   }
 
   .price-complete .complete-visual img {
@@ -277,21 +348,141 @@ siteEnhancementStyle.textContent = `
 
   .price-row-complete {
     position: relative;
+    margin-top: 5px;
+    padding: 17px 0 16px !important;
   }
 
   .price-row-complete::before {
     content: "";
     position: absolute;
-    left: 18%;
-    right: 18%;
+    left: 12%;
+    right: 12%;
     top: 7px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(49,190,125,.32), transparent);
+    background: linear-gradient(90deg, transparent, rgba(49,190,125,.36), transparent);
   }
 
-  .price-row-complete strong {
-    color: #0d7d4b !important;
-    text-shadow: 0 4px 18px rgba(49,190,125,.16);
+  .price-row-complete > .premium-price-offer {
+    position: relative;
+    display: block !important;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid rgba(35,185,116,.18);
+    border-radius: 17px;
+    background:
+      radial-gradient(circle at 50% 58%, rgba(76,231,151,.12), transparent 42%),
+      linear-gradient(180deg, rgba(248,255,251,.95), rgba(239,250,244,.78));
+    box-shadow:
+      0 18px 42px rgba(15,111,70,.08),
+      inset 0 1px 0 rgba(255,255,255,.95);
+  }
+
+  .premium-price-offer::before,
+  .premium-price-offer::after {
+    content: "✦";
+    position: absolute;
+    color: #38c982;
+    font-size: 14px;
+    text-shadow: 0 0 12px rgba(56,201,130,.65);
+    animation: priceSparkle 2.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .premium-price-offer::before {
+    left: 8%;
+    top: 48%;
+  }
+
+  .premium-price-offer::after {
+    right: 8%;
+    top: 61%;
+    animation-delay: 1.15s;
+  }
+
+  .premium-promo-ribbon {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    padding: 9px 13px;
+    border: 1px solid rgba(126,244,184,.36);
+    border-radius: 999px;
+    color: #f3fff8;
+    background: linear-gradient(105deg, #0b6840, #1fba71 52%, #0b6840);
+    background-size: 190% 100%;
+    box-shadow: 0 10px 25px rgba(15,111,70,.20), 0 0 18px rgba(49,190,125,.12);
+    font-weight: 900;
+    text-align: center;
+    animation: promoRibbonShine 5s ease-in-out infinite;
+  }
+
+  .premium-old-price {
+    position: relative;
+    z-index: 2;
+    color: #b52323 !important;
+    font-weight: 800;
+    letter-spacing: .01em;
+  }
+
+  .premium-old-price span {
+    color: #c82020 !important;
+    font-size: 19px !important;
+    font-weight: 900;
+    text-decoration-line: line-through;
+    text-decoration-color: #e21e1e;
+    text-decoration-thickness: 3px;
+    text-decoration-skip-ink: none;
+  }
+
+  .premium-installment {
+    position: relative;
+    z-index: 2;
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    flex-wrap: wrap;
+    line-height: .88;
+  }
+
+  .premium-installment-count,
+  .premium-installment strong {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: transparent !important;
+    background: linear-gradient(100deg, #0b7446 0%, #18b56d 28%, #68e7a7 49%, #1ac676 66%, #087342 100%);
+    background-size: 230% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 6px 15px rgba(25,181,109,.18));
+    animation: premiumPriceShine 4.2s ease-in-out infinite;
+  }
+
+  .premium-installment-count {
+    font-weight: 900 !important;
+    letter-spacing: -.04em;
+  }
+
+  .premium-installment strong {
+    position: relative;
+    font-weight: 950 !important;
+    line-height: .86 !important;
+    letter-spacing: -.065em !important;
+  }
+
+  .premium-cash-price {
+    position: relative;
+    z-index: 2;
+    color: #47524b !important;
+    font-weight: 700;
+  }
+
+  .premium-cash-price strong {
+    color: #07100b !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    letter-spacing: -.02em !important;
+    text-shadow: none !important;
   }
 
   .price-complete .cta-primary {
@@ -317,8 +508,9 @@ siteEnhancementStyle.textContent = `
     pointer-events: none;
   }
 
+  .price-complete .access-note,
   .price-complete .security-line {
-    color: #496558;
+    color: #2d3932 !important;
   }
 
   @keyframes premiumTextShine {
@@ -329,6 +521,21 @@ siteEnhancementStyle.textContent = `
   @keyframes badgeShine {
     0%, 30% { background-position: 100% 50%; }
     65%, 100% { background-position: 0% 50%; }
+  }
+
+  @keyframes promoRibbonShine {
+    0%, 25% { background-position: 100% 50%; }
+    60%, 100% { background-position: 0% 50%; }
+  }
+
+  @keyframes premiumPriceShine {
+    0%, 20% { background-position: 100% 50%; }
+    55%, 100% { background-position: 0% 50%; }
+  }
+
+  @keyframes priceSparkle {
+    0%, 100% { opacity: .24; transform: scale(.72) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.18) rotate(12deg); }
   }
 
   @keyframes premiumButtonGlow {
@@ -346,6 +553,11 @@ siteEnhancementStyle.textContent = `
   @media (prefers-reduced-motion: reduce) {
     #pricing-title .premium-highlight,
     .price-complete .value-badge,
+    .premium-promo-ribbon,
+    .premium-installment-count,
+    .premium-installment strong,
+    .premium-price-offer::before,
+    .premium-price-offer::after,
     .price-complete .cta-primary,
     .price-complete .cta-primary::after {
       animation: none !important;
