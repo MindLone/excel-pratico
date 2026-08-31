@@ -29,6 +29,84 @@ if (showcaseSubtitle) {
   showcaseSubtitle.textContent = "Veja alguns dos modelos que você terá acesso. Escolha, edite com seus dados e comece a usar.";
 }
 
+// No celular, demonstra uma única vez que a galeria pode ser arrastada para o lado.
+const mobileGallery = document.querySelector(".showcase .gallery");
+if (
+  mobileGallery &&
+  window.matchMedia("(max-width: 939px)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+  let galleryDemoCancelled = false;
+  let galleryDemoPlayed = false;
+  let galleryDemoFrame = null;
+  let galleryDemoTimer = null;
+
+  const cancelGalleryDemo = () => {
+    galleryDemoCancelled = true;
+    if (galleryDemoFrame) cancelAnimationFrame(galleryDemoFrame);
+    if (galleryDemoTimer) clearTimeout(galleryDemoTimer);
+    mobileGallery.style.scrollSnapType = "";
+  };
+
+  ["touchstart", "pointerdown"].forEach((eventName) => {
+    mobileGallery.addEventListener(eventName, cancelGalleryDemo, { once: true, passive: true });
+  });
+
+  const animateGalleryScroll = (target, duration, onDone) => {
+    const start = mobileGallery.scrollLeft;
+    const distance = target - start;
+    const startedAt = performance.now();
+
+    const step = (now) => {
+      if (galleryDemoCancelled) return;
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      mobileGallery.scrollLeft = start + distance * eased;
+
+      if (progress < 1) {
+        galleryDemoFrame = requestAnimationFrame(step);
+      } else if (typeof onDone === "function") {
+        onDone();
+      }
+    };
+
+    galleryDemoFrame = requestAnimationFrame(step);
+  };
+
+  const playGalleryDemo = () => {
+    if (galleryDemoPlayed || galleryDemoCancelled) return;
+    galleryDemoPlayed = true;
+
+    const maxScroll = Math.max(0, mobileGallery.scrollWidth - mobileGallery.clientWidth);
+    const demoDistance = Math.min(88, maxScroll);
+    if (demoDistance < 24) return;
+
+    mobileGallery.style.scrollSnapType = "none";
+    animateGalleryScroll(demoDistance, 1800, () => {
+      galleryDemoTimer = setTimeout(() => {
+        animateGalleryScroll(0, 1500, () => {
+          mobileGallery.style.scrollSnapType = "";
+        });
+      }, 420);
+    });
+  };
+
+  if ("IntersectionObserver" in window) {
+    const galleryObserver = new IntersectionObserver((entries, observer) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      galleryDemoTimer = setTimeout(playGalleryDemo, 550);
+    }, { threshold: 0.4 });
+
+    galleryObserver.observe(mobileGallery);
+  } else {
+    galleryDemoTimer = setTimeout(playGalleryDemo, 1800);
+  }
+}
+
 // Destaque premium da seção de ofertas.
 const pricingTitle = document.querySelector("#pricing-title");
 if (pricingTitle) {
