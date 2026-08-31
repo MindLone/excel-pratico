@@ -125,6 +125,12 @@ if (completeButton) {
   completeButton.textContent = "SIM, EU QUERO O PLANO COMPLETO!";
 }
 
+// Os bônus continuam visualmente a mesma lista de benefícios, em vez de uma lista miúda.
+const completeBonusPanel = document.querySelector(".price-complete .bonus-panel");
+if (completeBonusPanel) {
+  completeBonusPanel.querySelector("ol")?.classList.add("bonus-feature-list");
+}
+
 const siteEnhancementStyle = document.createElement("style");
 siteEnhancementStyle.textContent = `
   @media (max-width: 939px) {
@@ -338,6 +344,77 @@ siteEnhancementStyle.textContent = `
   .price-complete .bonus-panel ol,
   .price-complete .bonus-panel li {
     color: #202722 !important;
+  }
+
+  /* Vistos maiores e mais cheios em todos os benefícios dos planos. */
+  .pricing .feature-list li {
+    padding-left: 38px !important;
+  }
+
+  .pricing .feature-list li::before,
+  .price-complete .bonus-feature-list li::before {
+    content: "✔" !important;
+    position: absolute;
+    left: 1px !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    width: 24px !important;
+    height: 24px !important;
+    display: grid !important;
+    place-items: center;
+    border-radius: 50% !important;
+    background: #18a965 !important;
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    box-shadow: 0 4px 10px rgba(24,169,101,.18);
+  }
+
+  /* Os 10 bônus seguem o mesmo ritmo visual da lista principal. */
+  .price-complete .bonus-panel {
+    margin: 18px 0 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .price-complete .bonus-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 !important;
+    padding: 15px 0 !important;
+    border-top: 1px solid #e4ebe7;
+    border-bottom: 1px solid #e4ebe7;
+  }
+
+  .price-complete .bonus-title span {
+    width: 28px !important;
+    height: 28px !important;
+    flex: 0 0 28px;
+  }
+
+  .price-complete .bonus-title h4 {
+    font-size: 13px !important;
+    line-height: 1.3;
+  }
+
+  .price-complete .bonus-feature-list {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .price-complete .bonus-feature-list li {
+    position: relative;
+    margin: 0 !important;
+    padding: 14px 0 14px 38px !important;
+    border-bottom: 1px solid #edf2ef;
+    color: #202722 !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
   }
 
   .price-complete .complete-visual img {
