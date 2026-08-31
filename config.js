@@ -23,6 +23,12 @@ if (footerLogo) {
 document.querySelector(".hero .hero-copy-wrap > .eyebrow")?.remove();
 document.querySelector(".hero-points span:first-child")?.remove();
 
+// Restaura a versão curta aprovada para a vitrine sem regravar o HTML inteiro.
+const showcaseSubtitle = document.querySelector(".showcase .section-heading > p:last-child");
+if (showcaseSubtitle) {
+  showcaseSubtitle.textContent = "Veja alguns dos modelos que você terá acesso. Escolha, edite com seus dados e comece a usar.";
+}
+
 // Destaque premium da seção de ofertas.
 const pricingTitle = document.querySelector("#pricing-title");
 if (pricingTitle) {
