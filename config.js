@@ -1,7 +1,7 @@
 window.SITE_CONFIG = Object.freeze({
   PRECO_BASICO: "10",
   LINK_BASICO: "",
-  PRECO_COMPLETO: "17",
+  PRECO_COMPLETO: "27",
   LINK_COMPLETO: "",
   LINK_UPGRADE: "",
   EMAIL_SUPORTE: "academiadigital10@gmail.com",
@@ -27,6 +27,16 @@ document.querySelector(".hero-points span:first-child")?.remove();
 const pricingTitle = document.querySelector("#pricing-title");
 if (pricingTitle) {
   pricingTitle.innerHTML = 'Por que ficar só com o básico quando você pode ter a <span class="premium-highlight">biblioteca completa</span>?';
+}
+
+// Mantém o preço do pacote completo sincronizado na oferta visível.
+const pricingSubtitle = document.querySelector(".pricing .section-heading > p:last-child");
+if (pricingSubtitle) {
+  pricingSubtitle.innerHTML = 'Mais de <b>75 MIL planilhas</b>, acesso <b>vitalício</b>, dashboards, atualizações e <b>todos os bônus</b> por apenas R$27.';
+}
+const completePrice = document.querySelector(".price-row-complete strong");
+if (completePrice) {
+  completePrice.innerHTML = '<small>R$</small> 27';
 }
 
 const siteEnhancementStyle = document.createElement("style");
