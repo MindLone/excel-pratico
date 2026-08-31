@@ -32,5 +32,12 @@ mobileHeroStyle.textContent = `
       margin-bottom: 14px !important;
     }
   }
+
+  @media (min-width: 940px) {
+    .hero-logo {
+      width: 190px !important;
+      height: 58px !important;
+    }
+  }
 `;
 document.head.appendChild(mobileHeroStyle);
