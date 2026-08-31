@@ -11,10 +11,9 @@
   <link rel="stylesheet" href="/styles.css" />
   <style>
     .hero-logo{width:min(200px,58vw);height:60px;margin:0 auto 20px}
-    .footer-logo{position:relative;width:210px;height:72px;overflow:hidden;margin-bottom:12px}
-    .footer-logo img{position:absolute;left:-16px;top:-30px;width:236px;max-width:none;height:auto}
-    .footer-logo span{position:absolute;z-index:2;left:70px;right:0;top:6px;height:27px;display:flex;align-items:center;justify-content:center;background:#08120d;color:#fff;font-size:16px;font-weight:800;line-height:1;letter-spacing:.005em;white-space:nowrap}
-    @media(min-width:940px){.hero-logo{width:220px;height:68px;margin:0 0 26px}}
+    .footer-logo{width:min(250px,72vw);margin-bottom:12px}
+    .footer-logo img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}
+    @media(min-width:940px){.hero-logo{width:220px;height:68px;margin:0 0 26px}.footer-logo{width:250px}}
   </style>
   <script src="/config.js" defer></script>
   <script src="/script.js" defer></script>
@@ -67,7 +66,6 @@
         <div class="section-cta"><a class="text-cta" href="#ofertas">QUERO FACILITAR MINHA ROTINA <span aria-hidden="true">→</span></a></div>
       </div>
     </section>
-
     <section class="section benefits" aria-labelledby="benefits-title">
       <div class="container">
         <div class="section-heading center">
@@ -227,9 +225,8 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="footer-logo" role="img" aria-label="Planilhas Práticas">
-          <img src="/assets/logo-fundo-escuro-v2.webp" alt="" width="900" height="507" loading="lazy">
-          <span aria-hidden="true">PLANILHAS</span>
+        <div class="footer-logo">
+          <img src="/assets/planilhas-praticas-logo-footer-transparente.png" alt="Planilhas Práticas" width="2938" height="930" loading="lazy" decoding="async" />
         </div>
         <p>Modelos prontos para facilitar controles, organização e tarefas do dia a dia.</p>
       </div>
