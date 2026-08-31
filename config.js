@@ -18,3 +18,19 @@ const footerLogo = document.querySelector(".footer-logo");
 if (footerLogo) {
   footerLogo.style.width = "min(180px, 58vw)";
 }
+
+// Limpeza do topo para priorizar a experiência no celular.
+document.querySelector(".hero .hero-copy-wrap > .eyebrow")?.remove();
+document.querySelector(".hero-points span:first-child")?.remove();
+
+const mobileHeroStyle = document.createElement("style");
+mobileHeroStyle.textContent = `
+  @media (max-width: 939px) {
+    .hero-logo {
+      width: min(140px, 42vw) !important;
+      height: 44px !important;
+      margin-bottom: 14px !important;
+    }
+  }
+`;
+document.head.appendChild(mobileHeroStyle);
