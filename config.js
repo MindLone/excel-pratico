@@ -9,3 +9,6 @@ window.SITE_CONFIG = Object.freeze({
   WISTIA_DEPOIMENTO_1: "",
   WISTIA_DEPOIMENTO_2: ""
 });
+
+document.querySelector(".promo-dot")?.remove();
+document.querySelector(".mobile-sticky-cta")?.remove();
