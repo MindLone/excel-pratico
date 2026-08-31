@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1469 465" role="img" aria-labelledby="title">
+  <title id="title">Planilhas Práticas</title>
+  <defs>
+    <filter id="remove-black" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        4 4 4 0 0" result="keyed"/>
+      <feComponentTransfer in="keyed">
+        <feFuncA type="linear" slope="1.08" intercept="-0.03"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <image href="/assets/logotipo-correta.png" x="-123" y="-210" width="1672" height="941" filter="url(#remove-black)"/>
+</svg>
