@@ -3,34 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f3f8f5" />
+  <meta name="theme-color" content="#07130d" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Upgrade do Pacote | Planilhas Práticas</title>
+  <title>Pacote Upgrade Max | Oferta Especial</title>
   <link rel="preload" href="/assets/logo-fundo-claro.webp" as="image" type="image/webp" />
   <link rel="stylesheet" href="/styles.css" />
   <script src="/config.js" defer></script>
   <script src="/script.js" defer></script>
+  <style>
+    :root{--up-green:#0da956;--up-green-2:#08753d;--up-dark:#07130d;--up-ink:#102019;--up-soft:#edf8f1;--up-gold:#ffd34e;--up-red:#e63232}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body.upgrade-page{margin:0;background:#f8fbf9;color:var(--up-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:18px;line-height:1.55;overflow-x:hidden}
+    .upgrade-shell{position:relative;min-height:100vh;isolation:isolate;background:radial-gradient(circle at 50% 13%,rgba(24,190,100,.18),transparent 31rem),linear-gradient(180deg,#f9fdfb 0%,#eff8f2 48%,#fff 100%)}
+    .upgrade-shell:before,.upgrade-shell:after{content:"";position:absolute;z-index:-1;border-radius:999px;filter:blur(2px);pointer-events:none}
+    .upgrade-shell:before{width:360px;height:360px;background:radial-gradient(circle,rgba(13,169,86,.14),transparent 68%);top:330px;left:-180px}
+    .upgrade-shell:after{width:430px;height:430px;background:radial-gradient(circle,rgba(255,211,78,.13),transparent 70%);top:690px;right:-230px}
+    .upgrade-container{width:min(100% - 28px,940px);margin:0 auto;padding:20px 0 64px}
+    .upgrade-brand{display:flex;justify-content:center;margin:2px auto 14px}
+    .upgrade-brand img{display:block;width:min(240px,62vw);height:auto}
+    .offer-badge{width:max-content;max-width:100%;margin:0 auto 18px;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#08773e,#0eb35c);color:white;font-size:.86rem;font-weight:900;letter-spacing:.055em;text-transform:uppercase;box-shadow:0 10px 28px rgba(8,117,61,.23),inset 0 1px 0 rgba(255,255,255,.22);animation:badgeFloat 3.6s ease-in-out infinite;text-align:center}
+    @keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    .upgrade-hero{text-align:center;padding:5px 0 6px}
+    .upgrade-kicker{margin:0 auto 9px;color:#08753d;font-size:.9rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em}
+    .upgrade-title{margin:0 auto;max-width:850px;font-size:clamp(2rem,6vw,3.65rem);line-height:1.06;letter-spacing:-.045em;color:#102019;font-weight:950;text-wrap:balance}
+    .upgrade-title .highlight{color:#078746;position:relative;white-space:nowrap}
+    .upgrade-title .highlight:after{content:"";position:absolute;left:1%;right:1%;bottom:.02em;height:.2em;background:#bdf4d5;z-index:-1;border-radius:4px;transform:rotate(-1deg)}
+    .upgrade-subtitle{max-width:760px;margin:17px auto 6px;color:#3f5148;font-size:clamp(1.05rem,2.7vw,1.3rem);font-weight:650;line-height:1.5;text-wrap:balance}
+    .upgrade-subtitle strong{color:#0b7f43}
+    .product-stage{position:relative;margin:18px auto 8px;max-width:940px;padding:8px 0}
+    .product-stage:before{content:"";position:absolute;left:8%;right:8%;bottom:6%;height:28%;background:radial-gradient(ellipse,rgba(13,169,86,.24),transparent 69%);filter:blur(22px);z-index:-1}
+    .product-stage img{display:block;width:100%;height:auto;filter:drop-shadow(0 22px 25px rgba(5,34,19,.18));animation:packEnter .75s cubic-bezier(.2,.75,.2,1) both}
+    @keyframes packEnter{from{opacity:0;transform:translateY(13px) scale(.985)}to{opacity:1;transform:none}}
+    .exclusive-note{display:flex;gap:11px;align-items:flex-start;margin:6px auto 22px;max-width:760px;padding:14px 16px;border:1px solid #cde9d8;background:rgba(255,255,255,.84);backdrop-filter:blur(8px);border-radius:15px;box-shadow:0 9px 28px rgba(11,80,44,.08);font-size:.96rem;text-align:left}
+    .exclusive-note b{color:#08753d}
+    .exclusive-note .gift{font-size:1.35rem;line-height:1.2}
+    .upgrade-card{position:relative;margin:0 auto;background:#fff;border:1px solid #d8eadf;border-radius:24px;box-shadow:0 22px 60px rgba(6,55,29,.13);overflow:hidden}
+    .upgrade-card:before{content:"";display:block;height:6px;background:linear-gradient(90deg,#05733c,#16bd66,#ffd34e,#16bd66,#05733c);background-size:220% 100%;animation:shineBar 5s linear infinite}
+    @keyframes shineBar{to{background-position:220% 0}}
+    .card-head{padding:26px 26px 13px;text-align:center;background:linear-gradient(180deg,#f7fcf9,#fff)}
+    .card-head .mini{display:inline-flex;align-items:center;gap:7px;margin:0 0 8px;color:#06733c;font-size:.84rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase}
+    .card-head h2{margin:0;font-size:clamp(1.55rem,4.4vw,2.25rem);line-height:1.15;letter-spacing:-.025em;color:#102019}
+    .card-head p{margin:10px auto 0;max-width:690px;color:#56665e;font-size:1.02rem}
+    .upgrade-features{list-style:none;margin:0;padding:11px 26px 7px;display:grid;gap:12px}
+    .upgrade-features li{display:grid;grid-template-columns:31px 1fr;gap:11px;align-items:start;padding:14px 15px;background:#f8fbf9;border:1px solid #e0eee5;border-radius:15px;font-size:1.04rem;font-weight:720;line-height:1.36}
+    .upgrade-features li:before{content:"✔";display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:linear-gradient(135deg,#0aa153,#0c7a42);color:white;font-size:.88rem;font-weight:950;box-shadow:0 4px 10px rgba(8,117,61,.2)}
+    .upgrade-features li strong{color:#08753d}
+    .bonus-callout{margin:15px 26px 8px;padding:17px 18px;border:1px solid #f4d36a;border-radius:16px;background:linear-gradient(135deg,#fff9df,#fffdf3);color:#54430e;text-align:center;font-weight:800;font-size:1.02rem;box-shadow:0 8px 24px rgba(120,88,0,.07)}
+    .upgrade-price-box{margin:17px 26px 0;padding:21px 18px 18px;border-radius:20px;background:linear-gradient(145deg,#08150e,#0d2b1c);color:#fff;text-align:center;box-shadow:0 15px 34px rgba(5,34,19,.22)}
+    .upgrade-price-box .label{display:block;font-size:.92rem;color:#bfe5ce;font-weight:750}
+    .upgrade-price-box .compare{display:block;margin-top:4px;color:#f7d866;font-size:.93rem;font-weight:800}
+    .upgrade-price-box .price{display:flex;align-items:flex-start;justify-content:center;gap:5px;margin:5px 0 1px;font-size:clamp(3.2rem,11vw,5.5rem);font-weight:950;line-height:1;letter-spacing:-.055em}
+    .upgrade-price-box .price small{font-size:.29em;margin-top:.38em;letter-spacing:0;color:#e3f3e9}
+    .upgrade-price-box .once{font-size:.9rem;color:#d4e8dc;font-weight:650}
+    .upgrade-actions{padding:18px 26px 29px}
+    .upgrade-cta{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:64px;width:100%;padding:16px 20px;border-radius:15px;background:linear-gradient(180deg,#19bf65,#079548);color:#fff!important;text-decoration:none!important;font-size:clamp(1.08rem,3.4vw,1.28rem);line-height:1.25;font-weight:950;letter-spacing:.01em;box-shadow:0 12px 0 #06783b,0 18px 28px rgba(6,120,59,.24);transition:transform .18s ease,filter .18s ease;overflow:hidden}
+    .upgrade-cta:after{content:"";position:absolute;top:-50%;left:-35%;width:22%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:rotate(18deg);animation:ctaShine 4.2s ease-in-out infinite}
+    @keyframes ctaShine{0%,55%{left:-35%}78%,100%{left:125%}}
+    .upgrade-cta:hover{transform:translateY(-2px);filter:saturate(1.06)}
+    .safe-line{display:flex;justify-content:center;gap:8px;align-items:center;margin:19px auto 3px;color:#53645b;font-size:.88rem;font-weight:650;text-align:center}
+    .safe-line span{color:#0c8b49;font-size:1.08rem}
+    .upgrade-decline{display:block;margin:22px auto 0;color:#758079!important;text-decoration:underline!important;text-underline-offset:3px;font-size:.86rem;text-align:center;max-width:660px}
+    .upgrade-return{display:block;margin:13px auto 0;color:#87918b!important;text-decoration:none!important;font-size:.82rem;text-align:center}
+    .upgrade-foot{padding:25px 10px 0;text-align:center;color:#718078;font-size:.78rem}
+    .upgrade-foot strong{color:#536158}
+    @media(min-width:760px){
+      .upgrade-container{padding-top:25px}.upgrade-brand img{width:220px}.upgrade-features{grid-template-columns:1fr 1fr}.upgrade-features li:first-child{grid-column:1/-1}.upgrade-features li{font-size:1.08rem}.upgrade-card{border-radius:28px}.card-head{padding-top:31px}.upgrade-actions{padding-left:44px;padding-right:44px}.upgrade-price-box{margin-left:44px;margin-right:44px}.bonus-callout{margin-left:44px;margin-right:44px}
+    }
+    @media(max-width:560px){
+      body.upgrade-page{font-size:18px}.upgrade-container{width:min(100% - 18px,940px);padding-top:14px}.upgrade-brand{margin-bottom:10px}.upgrade-brand img{width:176px}.offer-badge{font-size:.78rem;padding:9px 13px;margin-bottom:14px}.upgrade-title{font-size:2.12rem}.upgrade-subtitle{font-size:1.06rem;margin-top:13px;padding:0 3px}.product-stage{margin-top:10px}.product-stage img{width:112%;max-width:none;margin-left:-6%}.exclusive-note{font-size:.93rem;margin-bottom:15px}.upgrade-card{border-radius:20px}.card-head{padding:22px 17px 11px}.card-head p{font-size:.98rem}.upgrade-features{padding:9px 13px 4px;gap:9px}.upgrade-features li{padding:13px 12px;font-size:1.03rem;grid-template-columns:30px 1fr}.bonus-callout{margin:13px 13px 7px;padding:15px 12px;font-size:.98rem}.upgrade-price-box{margin:14px 13px 0}.upgrade-actions{padding:16px 13px 25px}.upgrade-cta{min-height:66px;font-size:1.08rem;padding:15px 12px}.safe-line{font-size:.83rem;line-height:1.3}.upgrade-decline{font-size:.83rem;line-height:1.4}.upgrade-return{font-size:.8rem}
+    }
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+  </style>
 </head>
 <body class="upgrade-page">
-  <main class="upgrade-main">
-    <div class="container">
-      <a href="/" aria-label="Voltar para Planilhas Práticas"><img class="brand-logo upgrade-logo" src="/assets/logo-fundo-claro.webp" alt="Planilhas Práticas" width="900" height="272" /></a>
-      <section class="upgrade-card" aria-labelledby="upgrade-title">
-        <p class="upgrade-ribbon">OFERTA DE UPGRADE DO PLANO BÁSICO</p>
-        <div class="upgrade-body">
-          <p class="eyebrow">ANTES DE CONTINUAR</p>
-          <h1 id="upgrade-title">Leve mais recursos por apenas R$ 5 a mais.</h1>
-          <p class="upgrade-offer-copy">Por R$15, você mantém o pacote de planilhas e adiciona materiais extras para apresentações, documentos e Power BI.</p>
-          <ul class="feature-list upgrade-list">
-            <li>30.000 planilhas</li><li>7 dias grátis</li><li>Atualizações mensais</li><li>Suporte 24h</li><li>800 Templates editáveis em Power BI</li><li>50.000 Slides para apresentações em PowerPoint</li><li>4.000 Modelos de documentos editáveis no Word</li>
-          </ul>
-          <div class="price-row upgrade-price"><div><span>Pagamento único</span><strong><small>R$</small> 15</strong></div></div>
-          <a class="cta cta-primary" href="#" data-checkout="upgrade">SIM, QUERO APROVEITAR O UPGRADE</a>
-          <p class="access-note">Acesso por e-mail após a confirmação do pagamento.</p>
-          <a class="upgrade-decline" href="#" data-checkout="basico">Não, obrigado. Quero continuar apenas com o Plano Básico de R$10.</a>
+  <main class="upgrade-shell">
+    <div class="upgrade-container">
+      <a class="upgrade-brand" href="/" aria-label="Planilhas Práticas">
+        <img src="/assets/logo-fundo-claro.webp" alt="Planilhas Práticas" width="900" height="272" />
+      </a>
+
+      <div class="offer-badge">🎁 OFERTA ESPECIAL LIBERADA</div>
+
+      <section class="upgrade-hero" aria-labelledby="upgrade-title">
+        <p class="upgrade-kicker">Uma condição exclusiva desta página</p>
+        <h1 class="upgrade-title" id="upgrade-title">Espere! Você acabou de liberar uma <span class="highlight">Oferta Especial de Upgrade!</span> 😄</h1>
+        <p class="upgrade-subtitle">Você já estava levando suas planilhas. Agora pode transformar o pedido no <strong>Pacote Upgrade Max</strong> e receber uma biblioteca muito maior de materiais por apenas <strong>R$ 5 a mais</strong>.</p>
+      </section>
+
+      <div class="product-stage" aria-label="Pacote Upgrade Max">
+        <img src="/assets/pacote-upgrade-max.png" onerror="this.onerror=null;this.src='/assets/plano-completo.webp';" alt="Pacote Upgrade Max com planilhas, Power BI, PowerPoint e Word" width="1672" height="941" />
+      </div>
+
+      <div class="exclusive-note">
+        <span class="gift" aria-hidden="true">🔐</span>
+        <div><b>Pacote especial de upgrade:</b> esta combinação foi preparada para quem chegou até esta etapa e quer ampliar o pacote antes de finalizar.</div>
+      </div>
+
+      <section class="upgrade-card" aria-labelledby="everything-title">
+        <header class="card-head">
+          <p class="mini">⭐ PACOTE UPGRADE MAX</p>
+          <h2 id="everything-title">Veja tudo o que você libera agora:</h2>
+          <p>Em vez de ficar apenas com o pacote básico, você adiciona planilhas, modelos profissionais e materiais editáveis para Excel, Power BI, PowerPoint e Word.</p>
+        </header>
+
+        <ul class="upgrade-features">
+          <li><div><strong>30.000 Planilhas</strong> prontas e editáveis para diversas áreas</div></li>
+          <li><div><strong>7 dias grátis</strong> para conhecer o material</div></li>
+          <li><div><strong>Atualizações mensais</strong> incluídas</div></li>
+          <li><div><strong>Suporte 24h</strong> para ajudar quando precisar</div></li>
+          <li><div><strong>800 Templates editáveis em Power BI</strong></div></li>
+          <li><div><strong>50.000 Slides</strong> para apresentações em PowerPoint</div></li>
+          <li><div><strong>4.000 Modelos de documentos</strong> editáveis no Word</div></li>
+        </ul>
+
+        <div class="bonus-callout">🎁 Tudo reunido em uma única oferta especial para deixar o seu pacote muito mais completo.</div>
+
+        <div class="upgrade-price-box">
+          <span class="label">OFERTA ESPECIAL DE UPGRADE</span>
+          <span class="compare">Você adiciona tudo isso por apenas R$ 5 a mais</span>
+          <div class="price"><small>R$</small>15</div>
+          <span class="once">pagamento único</span>
+        </div>
+
+        <div class="upgrade-actions">
+          <a class="upgrade-cta" href="#" data-checkout="upgrade">SIM! QUERO O PACOTE UPGRADE MAX</a>
+          <div class="safe-line"><span>🔒</span> Compra segura e acesso enviado após a confirmação do pagamento.</div>
+          <a class="upgrade-decline" href="#" data-checkout="basico">Não, obrigado. Prefiro continuar somente com o Plano Básico de R$10.</a>
           <a class="upgrade-return" href="/#ofertas">← Voltar para comparar os pacotes</a>
         </div>
       </section>
+
+      <footer class="upgrade-foot">Planilhas Práticas · <strong>Pacote Upgrade Max</strong></footer>
     </div>
   </main>
 </body>
