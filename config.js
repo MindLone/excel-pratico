@@ -12,3 +12,4 @@ window.SITE_CONFIG = Object.freeze({
 
 document.querySelector(".promo-dot")?.remove();
 document.querySelector(".mobile-sticky-cta")?.remove();
+document.querySelector(".final-cta")?.remove();
