@@ -15,79 +15,67 @@ document.querySelector(".mobile-sticky-cta")?.remove();
 document.querySelector(".final-cta")?.remove();
 
 const footerLogo = document.querySelector(".footer-logo");
-if (footerLogo) {
-  footerLogo.style.width = "min(180px, 58vw)";
-}
+if (footerLogo) footerLogo.style.width = "min(180px, 58vw)";
 
-// Limpeza do topo para priorizar a experiência no celular.
 document.querySelector(".hero .hero-copy-wrap > .eyebrow")?.remove();
 document.querySelector(".hero-points span:first-child")?.remove();
 
-// Restaura a versão curta aprovada para a vitrine sem regravar o HTML inteiro.
 const showcaseSubtitle = document.querySelector(".showcase .section-heading > p:last-child");
 if (showcaseSubtitle) {
   showcaseSubtitle.textContent = "Veja alguns dos modelos que você terá acesso. Escolha, edite com seus dados e comece a usar.";
 }
 
-// No celular, demonstra uma única vez que a galeria pode ser arrastada para o lado.
+// Demonstra uma única vez, no celular, que a galeria pode ser arrastada.
 const mobileGallery = document.querySelector(".showcase .gallery");
 if (
   mobileGallery &&
   window.matchMedia("(max-width: 939px)").matches &&
   !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 ) {
-  let galleryDemoCancelled = false;
-  let galleryDemoPlayed = false;
-  let galleryDemoFrame = null;
-  let galleryDemoTimer = null;
+  let cancelled = false;
+  let played = false;
+  let frame = null;
+  let timer = null;
 
-  const cancelGalleryDemo = () => {
-    galleryDemoCancelled = true;
-    if (galleryDemoFrame) cancelAnimationFrame(galleryDemoFrame);
-    if (galleryDemoTimer) clearTimeout(galleryDemoTimer);
+  const cancelDemo = () => {
+    cancelled = true;
+    if (frame) cancelAnimationFrame(frame);
+    if (timer) clearTimeout(timer);
     mobileGallery.style.scrollSnapType = "";
   };
 
   ["touchstart", "pointerdown"].forEach((eventName) => {
-    mobileGallery.addEventListener(eventName, cancelGalleryDemo, { once: true, passive: true });
+    mobileGallery.addEventListener(eventName, cancelDemo, { once: true, passive: true });
   });
 
-  const animateGalleryScroll = (target, duration, onDone) => {
+  const animateScroll = (target, duration, done) => {
     const start = mobileGallery.scrollLeft;
     const distance = target - start;
-    const startedAt = performance.now();
+    const startTime = performance.now();
 
     const step = (now) => {
-      if (galleryDemoCancelled) return;
-      const progress = Math.min((now - startedAt) / duration, 1);
-      const eased = progress < 0.5
-        ? 4 * progress * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
+      if (cancelled) return;
+      const p = Math.min((now - startTime) / duration, 1);
+      const eased = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
       mobileGallery.scrollLeft = start + distance * eased;
-
-      if (progress < 1) {
-        galleryDemoFrame = requestAnimationFrame(step);
-      } else if (typeof onDone === "function") {
-        onDone();
-      }
+      if (p < 1) frame = requestAnimationFrame(step);
+      else if (typeof done === "function") done();
     };
 
-    galleryDemoFrame = requestAnimationFrame(step);
+    frame = requestAnimationFrame(step);
   };
 
-  const playGalleryDemo = () => {
-    if (galleryDemoPlayed || galleryDemoCancelled) return;
-    galleryDemoPlayed = true;
-
+  const playDemo = () => {
+    if (played || cancelled) return;
+    played = true;
     const maxScroll = Math.max(0, mobileGallery.scrollWidth - mobileGallery.clientWidth);
-    const demoDistance = Math.min(88, maxScroll);
-    if (demoDistance < 24) return;
+    const distance = Math.min(88, maxScroll);
+    if (distance < 24) return;
 
     mobileGallery.style.scrollSnapType = "none";
-    animateGalleryScroll(demoDistance, 1800, () => {
-      galleryDemoTimer = setTimeout(() => {
-        animateGalleryScroll(0, 1500, () => {
+    animateScroll(distance, 1800, () => {
+      timer = setTimeout(() => {
+        animateScroll(0, 1500, () => {
           mobileGallery.style.scrollSnapType = "";
         });
       }, 420);
@@ -95,44 +83,43 @@ if (
   };
 
   if ("IntersectionObserver" in window) {
-    const galleryObserver = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries, currentObserver) => {
       if (!entries.some((entry) => entry.isIntersecting)) return;
-      observer.disconnect();
-      galleryDemoTimer = setTimeout(playGalleryDemo, 550);
-    }, { threshold: 0.4 });
-
-    galleryObserver.observe(mobileGallery);
+      currentObserver.disconnect();
+      timer = setTimeout(playDemo, 550);
+    }, { threshold: .4 });
+    observer.observe(mobileGallery);
   } else {
-    galleryDemoTimer = setTimeout(playGalleryDemo, 1800);
+    timer = setTimeout(playDemo, 1800);
   }
 }
 
-// Destaque premium da seção de ofertas.
 const pricingTitle = document.querySelector("#pricing-title");
 if (pricingTitle) {
   pricingTitle.innerHTML = 'Por que ficar só com o básico quando você pode ter a <span class="premium-highlight">biblioteca completa</span>?';
 }
 
-// Mantém o preço do pacote completo sincronizado na oferta visível.
 const pricingSubtitle = document.querySelector(".pricing .section-heading > p:last-child");
 if (pricingSubtitle) {
   pricingSubtitle.innerHTML = 'Mais de <b>75 MIL planilhas</b>, acesso <b>vitalício</b>, dashboards, atualizações e <b>todos os bônus</b> por apenas R$19,90.';
 }
 
-// Reforça a ancoragem e o parcelamento real do Pacote Completo.
+// R$79,60 com 75% de desconto resulta exatamente em R$19,90.
 const completePriceRow = document.querySelector(".price-row-complete");
 if (completePriceRow) {
   completePriceRow.innerHTML = `
-    <div class="premium-price-offer">
-      <div class="premium-promo-ribbon">46% DE PROMOÇÃO SOMENTE HOJE</div>
-      <div class="premium-old-price">De <span>R$37,00</span></div>
-      <div class="premium-installment" aria-label="4 parcelas de 5 reais e 82 centavos">
-        <span class="premium-installment-count">4x de</span>
-        <strong>R$5,82</strong>
-      </div>
+    <div class="premium-price-compact">
+      <div class="premium-promo-hot">75% DE PROMOÇÃO SOMENTE HOJE</div>
+      <div class="premium-old-price">De <span>R$79,60</span> por</div>
+      <div class="premium-installment"><span>4x de</span> <strong>R$5,82</strong></div>
       <div class="premium-cash-price">ou <strong>R$19,90 à vista</strong></div>
     </div>
   `;
+}
+
+const completeButton = document.querySelector(".price-complete .cta-primary");
+if (completeButton) {
+  completeButton.textContent = "SIM, EU QUERO O PLANO COMPLETO!";
 }
 
 const siteEnhancementStyle = document.createElement("style");
@@ -144,74 +131,29 @@ siteEnhancementStyle.textContent = `
       margin-bottom: 14px !important;
     }
 
-    .pricing .section-heading {
-      margin-bottom: 34px;
-    }
+    .pricing .section-heading { margin-bottom: 34px; }
+    .price-complete { order: -1; }
 
-    .price-complete {
-      order: -1;
-    }
-
-    .premium-price-offer {
-      padding: 20px 10px 17px;
-    }
-
-    .premium-promo-ribbon {
-      width: min(100%, 300px);
+    .premium-promo-hot {
       font-size: 10px;
-      letter-spacing: .065em;
+      padding: 8px 11px;
     }
 
-    .premium-old-price {
-      margin-top: 17px;
-      font-size: 13px;
-    }
+    .premium-old-price { margin-top: 14px; font-size: 12px; }
+    .premium-old-price span { font-size: 17px; }
 
-    .premium-installment {
-      margin-top: 7px;
-      gap: 7px;
-    }
-
-    .premium-installment-count {
-      font-size: clamp(25px, 8vw, 32px) !important;
-    }
-
-    .premium-installment strong {
-      font-size: clamp(48px, 15.2vw, 63px) !important;
-    }
-
-    .premium-cash-price {
-      margin-top: 9px;
-      font-size: 13px;
-    }
+    .premium-installment { margin-top: 5px; }
+    .premium-installment span { font-size: 21px; }
+    .premium-installment strong { font-size: clamp(40px, 12vw, 48px); }
+    .premium-cash-price { margin-top: 7px; font-size: 13px; }
   }
 
   @media (min-width: 940px) {
-    .hero-logo {
-      width: 190px !important;
-      height: 58px !important;
-    }
-
-    .pricing .section-heading {
-      max-width: 790px;
-      margin-bottom: 44px;
-    }
-
-    .price-complete {
-      transform: translateY(-8px) scale(1.018);
-    }
-
-    .premium-price-offer {
-      padding: 24px 14px 20px;
-    }
-
-    .premium-installment-count {
-      font-size: 31px !important;
-    }
-
-    .premium-installment strong {
-      font-size: 68px !important;
-    }
+    .hero-logo { width: 190px !important; height: 58px !important; }
+    .pricing .section-heading { max-width: 790px; margin-bottom: 44px; }
+    .price-complete { transform: translateY(-8px) scale(1.018); }
+    .premium-installment span { font-size: 24px; }
+    .premium-installment strong { font-size: 52px; }
   }
 
   .pricing {
@@ -235,17 +177,15 @@ siteEnhancementStyle.textContent = `
     pointer-events: none;
   }
 
-  .pricing .container-pricing {
-    position: relative;
-    z-index: 1;
-  }
+  .pricing .container-pricing { position: relative; z-index: 1; }
+  .pricing .section-heading > p:last-child { max-width: 650px; margin-inline: auto; }
 
   #pricing-title .premium-highlight {
     position: relative;
     display: inline-block;
     color: transparent;
-    background: linear-gradient(100deg, #0f6f46 0%, #19a968 24%, #73e9ad 48%, #22bd76 66%, #0f6f46 100%);
-    background-size: 240% 100%;
+    background: linear-gradient(100deg, #0f6f46 0%, #19a968 35%, #73e9ad 52%, #22bd76 70%, #0f6f46 100%);
+    background-size: 220% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -267,11 +207,6 @@ siteEnhancementStyle.textContent = `
     opacity: .72;
   }
 
-  .pricing .section-heading > p:last-child {
-    max-width: 650px;
-    margin-inline: auto;
-  }
-
   .price-basic {
     border-color: #e4ebe7 !important;
     box-shadow: 0 10px 30px rgba(24,66,44,.06) !important;
@@ -280,12 +215,10 @@ siteEnhancementStyle.textContent = `
   .price-complete {
     isolation: isolate;
     overflow: visible;
-    color: #101612 !important;
+    color: #111713 !important;
     border: 2px solid #23b974 !important;
-    background: linear-gradient(180deg, #ffffff 0%, #fbfffd 100%) !important;
-    box-shadow:
-      0 30px 75px rgba(15,111,70,.18),
-      0 8px 24px rgba(26,169,104,.10) !important;
+    background: linear-gradient(180deg, #fff 0%, #fbfffd 100%) !important;
+    box-shadow: 0 30px 75px rgba(15,111,70,.18), 0 8px 24px rgba(26,169,104,.10) !important;
   }
 
   .price-complete::before {
@@ -294,9 +227,9 @@ siteEnhancementStyle.textContent = `
     z-index: -1;
     inset: -10px;
     border-radius: 25px;
-    background: linear-gradient(135deg, rgba(49,190,125,.20), rgba(15,111,70,.03) 45%, rgba(115,233,173,.16));
+    background: linear-gradient(135deg, rgba(49,190,125,.18), rgba(15,111,70,.03) 45%, rgba(115,233,173,.14));
     filter: blur(20px);
-    opacity: .72;
+    opacity: .68;
     pointer-events: none;
   }
 
@@ -309,38 +242,25 @@ siteEnhancementStyle.textContent = `
     height: 2px;
     border-radius: 999px;
     background: linear-gradient(90deg, transparent, #8df3bd, #24ba75, transparent);
-    box-shadow: 0 0 13px rgba(49,190,125,.52);
+    box-shadow: 0 0 13px rgba(49,190,125,.42);
     pointer-events: none;
   }
 
   .price-complete .value-badge {
     background: linear-gradient(110deg, #0d6841, #1fba71 55%, #0d6841) !important;
-    background-size: 180% 100% !important;
-    box-shadow: 0 8px 22px rgba(15,111,70,.25), 0 0 0 3px rgba(49,190,125,.08);
-    animation: badgeShine 5.5s ease-in-out infinite;
+    box-shadow: 0 8px 22px rgba(15,111,70,.22);
   }
 
-  .price-complete .plan-kicker {
-    color: #0c7446;
-  }
-
-  .price-complete .plan-head h3 {
-    color: #07100b !important;
-    text-shadow: 0 1px 0 rgba(255,255,255,.9);
-  }
+  .price-complete .plan-kicker { color: #0d7447; }
+  .price-complete .plan-head h3,
+  .price-complete .feature-list li strong,
+  .price-complete .bonus-title h4 { color: #07100b !important; }
 
   .price-complete .plan-head p:last-child,
   .price-complete .feature-list li,
   .price-complete .bonus-panel,
   .price-complete .bonus-panel ol,
-  .price-complete .bonus-panel li {
-    color: #1a211d !important;
-  }
-
-  .price-complete .feature-list li strong,
-  .price-complete .bonus-title h4 {
-    color: #07100b !important;
-  }
+  .price-complete .bonus-panel li { color: #202722 !important; }
 
   .price-complete .complete-visual img {
     filter: drop-shadow(0 23px 27px rgba(15,111,70,.18));
@@ -348,85 +268,45 @@ siteEnhancementStyle.textContent = `
 
   .price-row-complete {
     position: relative;
-    margin-top: 5px;
-    padding: 17px 0 16px !important;
+    display: block !important;
+    margin-top: 8px;
+    padding: 18px 0 14px !important;
   }
 
   .price-row-complete::before {
     content: "";
     position: absolute;
-    left: 12%;
-    right: 12%;
+    left: 18%;
+    right: 18%;
     top: 7px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(49,190,125,.36), transparent);
+    background: linear-gradient(90deg, transparent, rgba(49,190,125,.30), transparent);
   }
 
-  .price-row-complete > .premium-price-offer {
-    position: relative;
+  .premium-price-compact {
     display: block !important;
     width: 100%;
-    overflow: hidden;
     text-align: center;
-    border: 1px solid rgba(35,185,116,.18);
-    border-radius: 17px;
-    background:
-      radial-gradient(circle at 50% 58%, rgba(76,231,151,.12), transparent 42%),
-      linear-gradient(180deg, rgba(248,255,251,.95), rgba(239,250,244,.78));
-    box-shadow:
-      0 18px 42px rgba(15,111,70,.08),
-      inset 0 1px 0 rgba(255,255,255,.95);
   }
 
-  .premium-price-offer::before,
-  .premium-price-offer::after {
-    content: "✦";
-    position: absolute;
-    color: #38c982;
-    font-size: 14px;
-    text-shadow: 0 0 12px rgba(56,201,130,.65);
-    animation: priceSparkle 2.8s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  .premium-price-offer::before {
-    left: 8%;
-    top: 48%;
-  }
-
-  .premium-price-offer::after {
-    right: 8%;
-    top: 61%;
-    animation-delay: 1.15s;
-  }
-
-  .premium-promo-ribbon {
-    position: relative;
-    z-index: 2;
-    margin: 0 auto;
-    padding: 9px 13px;
-    border: 1px solid rgba(126,244,184,.36);
-    border-radius: 999px;
-    color: #f3fff8;
-    background: linear-gradient(105deg, #0b6840, #1fba71 52%, #0b6840);
-    background-size: 190% 100%;
-    box-shadow: 0 10px 25px rgba(15,111,70,.20), 0 0 18px rgba(49,190,125,.12);
+  .premium-promo-hot {
+    display: inline-block;
+    max-width: 100%;
+    border-radius: 7px;
+    color: #fff;
+    background: linear-gradient(105deg, #c82720, #ef5b22);
+    box-shadow: 0 8px 20px rgba(200,39,32,.18);
     font-weight: 900;
-    text-align: center;
-    animation: promoRibbonShine 5s ease-in-out infinite;
+    letter-spacing: .055em;
   }
 
   .premium-old-price {
-    position: relative;
-    z-index: 2;
-    color: #b52323 !important;
-    font-weight: 800;
-    letter-spacing: .01em;
+    color: #59625d !important;
+    font-weight: 700;
   }
 
   .premium-old-price span {
-    color: #c82020 !important;
-    font-size: 19px !important;
+    color: #d32222 !important;
     font-weight: 900;
     text-decoration-line: line-through;
     text-decoration-color: #e21e1e;
@@ -435,133 +315,100 @@ siteEnhancementStyle.textContent = `
   }
 
   .premium-installment {
-    position: relative;
-    z-index: 2;
     display: flex !important;
     align-items: baseline !important;
     justify-content: center !important;
-    flex-wrap: wrap;
-    line-height: .88;
+    gap: 7px;
+    line-height: .92;
   }
 
-  .premium-installment-count,
+  .premium-installment span,
   .premium-installment strong {
-    margin: 0 !important;
-    padding: 0 !important;
     color: transparent !important;
-    background: linear-gradient(100deg, #0b7446 0%, #18b56d 28%, #68e7a7 49%, #1ac676 66%, #087342 100%);
-    background-size: 230% 100%;
+    background: linear-gradient(105deg, #0b7547, #18b56d 55%, #0c7b49);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 6px 15px rgba(25,181,109,.18));
-    animation: premiumPriceShine 4.2s ease-in-out infinite;
   }
 
-  .premium-installment-count {
-    font-weight: 900 !important;
-    letter-spacing: -.04em;
+  .premium-installment span {
+    font-weight: 900;
+    letter-spacing: -.035em;
   }
 
   .premium-installment strong {
-    position: relative;
+    margin: 0 !important;
+    padding: 0 !important;
     font-weight: 950 !important;
-    line-height: .86 !important;
-    letter-spacing: -.065em !important;
+    line-height: .9 !important;
+    letter-spacing: -.055em !important;
+    text-shadow: none !important;
   }
 
-  .premium-cash-price {
-    position: relative;
-    z-index: 2;
-    color: #47524b !important;
-    font-weight: 700;
-  }
-
+  .premium-cash-price { color: #515b55 !important; font-weight: 700; }
   .premium-cash-price strong {
-    color: #07100b !important;
-    font-size: 20px !important;
+    color: #111713 !important;
+    font-size: 18px !important;
     font-weight: 900 !important;
-    letter-spacing: -.02em !important;
+    letter-spacing: -.015em !important;
     text-shadow: none !important;
   }
 
   .price-complete .cta-primary {
-    position: relative;
+    position: relative !important;
+    z-index: 4 !important;
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     overflow: hidden;
+    width: 100% !important;
     min-height: 58px;
-    background: linear-gradient(115deg, #159459, #22c276 52%, #0d7c4a) !important;
-    background-size: 170% 100% !important;
-    box-shadow: 0 16px 36px rgba(17,143,84,.30), 0 0 0 1px rgba(255,255,255,.14) inset !important;
-    animation: premiumButtonGlow 4.8s ease-in-out infinite;
+    color: #fff !important;
+    background: linear-gradient(115deg, #159459, #22c276 55%, #0d7c4a) !important;
+    box-shadow: 0 14px 30px rgba(17,143,84,.25) !important;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease !important;
   }
 
   .price-complete .cta-primary::after {
     content: "";
     position: absolute;
-    top: -35%;
-    bottom: -35%;
-    left: -38%;
-    width: 26%;
+    top: -45%;
+    bottom: -45%;
+    left: -45%;
+    width: 28%;
     transform: skewX(-18deg);
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
-    animation: premiumButtonSweep 4.8s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+    opacity: 0;
     pointer-events: none;
   }
 
-  .price-complete .access-note,
-  .price-complete .security-line {
-    color: #2d3932 !important;
+  @media (hover: hover) and (pointer: fine) {
+    .price-complete .cta-primary:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 18px 38px rgba(17,143,84,.36) !important;
+      filter: saturate(1.06);
+    }
+
+    .price-complete .cta-primary:hover::after {
+      left: 118%;
+      opacity: 1;
+      transition: left .58s ease, opacity .18s ease;
+    }
   }
+
+  .price-complete .cta-primary:active { transform: translateY(1px) !important; }
+  .price-complete .access-note,
+  .price-complete .security-line { color: #344039 !important; }
 
   @keyframes premiumTextShine {
     0%, 22% { background-position: 100% 50%; }
     55%, 100% { background-position: 0% 50%; }
   }
 
-  @keyframes badgeShine {
-    0%, 30% { background-position: 100% 50%; }
-    65%, 100% { background-position: 0% 50%; }
-  }
-
-  @keyframes promoRibbonShine {
-    0%, 25% { background-position: 100% 50%; }
-    60%, 100% { background-position: 0% 50%; }
-  }
-
-  @keyframes premiumPriceShine {
-    0%, 20% { background-position: 100% 50%; }
-    55%, 100% { background-position: 0% 50%; }
-  }
-
-  @keyframes priceSparkle {
-    0%, 100% { opacity: .24; transform: scale(.72) rotate(0deg); }
-    50% { opacity: 1; transform: scale(1.18) rotate(12deg); }
-  }
-
-  @keyframes premiumButtonGlow {
-    0%, 100% { background-position: 0% 50%; box-shadow: 0 16px 36px rgba(17,143,84,.26), 0 0 0 1px rgba(255,255,255,.14) inset; }
-    50% { background-position: 100% 50%; box-shadow: 0 18px 42px rgba(17,143,84,.36), 0 0 0 1px rgba(255,255,255,.18) inset; }
-  }
-
-  @keyframes premiumButtonSweep {
-    0%, 55% { left: -38%; opacity: 0; }
-    62% { opacity: 1; }
-    82% { left: 115%; opacity: 0; }
-    100% { left: 115%; opacity: 0; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    #pricing-title .premium-highlight,
-    .price-complete .value-badge,
-    .premium-promo-ribbon,
-    .premium-installment-count,
-    .premium-installment strong,
-    .premium-price-offer::before,
-    .premium-price-offer::after,
+    #pricing-title .premium-highlight { animation: none !important; }
     .price-complete .cta-primary,
-    .price-complete .cta-primary::after {
-      animation: none !important;
-    }
+    .price-complete .cta-primary::after { transition: none !important; }
   }
 `;
 document.head.appendChild(siteEnhancementStyle);
