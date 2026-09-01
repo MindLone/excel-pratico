@@ -57,21 +57,20 @@
     .upgrade-price-box .price small{font-size:.29em;margin-top:.38em;letter-spacing:0;color:#e3f3e9}
     .upgrade-price-box .once{font-size:.83rem;color:#d4e8dc;font-weight:650}
     .upgrade-actions{padding:16px 23px 25px}
-    .upgrade-cta{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:58px;width:100%;padding:14px 18px;border-radius:14px;background:linear-gradient(180deg,#19bf65,#079548);color:#fff!important;text-decoration:none!important;font-size:clamp(1rem,2.7vw,1.14rem);line-height:1.24;font-weight:950;letter-spacing:.008em;box-shadow:0 10px 0 #06783b,0 15px 24px rgba(6,120,59,.22);transition:transform .18s ease,filter .18s ease;overflow:hidden}
+    .upgrade-cta{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:58px;width:100%;padding:14px 18px;border:1px solid rgba(255,255,255,.28);border-radius:14px;background:linear-gradient(135deg,#1fba71,#128d55);color:#fff!important;text-decoration:none!important;font-size:clamp(1rem,2.7vw,1.14rem);line-height:1.24;font-weight:950;letter-spacing:.008em;text-shadow:0 1px 0 rgba(0,0,0,.12);box-shadow:0 10px 0 #0b7444,0 15px 28px rgba(6,120,59,.24),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;overflow:hidden}
     .upgrade-cta:after{content:"";position:absolute;top:-50%;left:-35%;width:22%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:rotate(18deg);animation:ctaShine 4.2s ease-in-out infinite}
     @keyframes ctaShine{0%,55%{left:-35%}78%,100%{left:125%}}
-    .upgrade-cta:hover{transform:translateY(-2px);filter:saturate(1.06)}
+    .upgrade-cta:hover{transform:translateY(-2px);filter:saturate(1.06);box-shadow:0 12px 0 #0b7444,0 18px 32px rgba(6,120,59,.26),inset 0 1px 0 rgba(255,255,255,.2)}
     .safe-line{display:flex;justify-content:center;gap:7px;align-items:center;margin:17px auto 3px;color:#53645b;font-size:.82rem;font-weight:650;text-align:center}
     .safe-line span{color:#0c8b49;font-size:1rem}
-    .upgrade-decline{display:block;margin:19px auto 0;color:#758079!important;text-decoration:underline!important;text-underline-offset:3px;font-size:.8rem;text-align:center;max-width:620px}
-    .upgrade-return{display:block;margin:12px auto 0;color:#87918b!important;text-decoration:none!important;font-size:.77rem;text-align:center}
+    .upgrade-decline{display:block;margin:20px auto 0;color:#111!important;text-decoration:underline!important;text-underline-offset:3px;text-decoration-thickness:1px!important;font-size:.82rem;font-weight:700;line-height:1.4;text-align:center;max-width:620px}
     .upgrade-foot{padding:21px 10px 0;text-align:center;color:#718078;font-size:.74rem}
     .upgrade-foot strong{color:#536158}
     @media(min-width:760px){
       .upgrade-container{padding-top:21px}.upgrade-brand img{width:190px}.upgrade-title .highlight{white-space:nowrap}.upgrade-features{grid-template-columns:1fr 1fr}.upgrade-features li:first-child{grid-column:1/-1}.upgrade-card{border-radius:25px}.card-head{padding-top:26px}.upgrade-actions{padding-left:38px;padding-right:38px}.upgrade-price-box{margin-left:38px;margin-right:38px}.bonus-callout{margin-left:38px;margin-right:38px}
     }
     @media(max-width:560px){
-      body.upgrade-page{font-size:16px}.upgrade-container{width:calc(100% - 24px);padding-top:12px;padding-bottom:45px}.upgrade-brand{margin-bottom:9px}.upgrade-brand img{width:154px}.offer-badge{max-width:calc(100vw - 32px);font-size:.72rem;padding:8px 11px;margin-bottom:12px;letter-spacing:.04em}.upgrade-hero{padding-left:2px;padding-right:2px}.upgrade-kicker{font-size:.74rem;margin-bottom:7px}.upgrade-title{max-width:100%;font-size:1.72rem;line-height:1.1;letter-spacing:-.032em}.upgrade-title .highlight{white-space:normal}.upgrade-subtitle{font-size:.96rem;margin-top:11px;padding:0 2px;line-height:1.43}.product-stage{width:90%;max-width:430px;margin:9px auto 14px;padding:4px 0}.product-stage img{width:100%;max-width:100%;margin:0 auto}.exclusive-note{font-size:.86rem;margin-bottom:13px;padding:11px 12px}.upgrade-card{border-radius:18px}.card-head{padding:19px 15px 10px}.card-head .mini{font-size:.72rem}.card-head h2{font-size:1.34rem}.card-head p{font-size:.89rem}.upgrade-features{padding:8px 11px 4px;gap:8px}.upgrade-features li{padding:11px 10px;font-size:.92rem;grid-template-columns:27px 1fr;gap:9px}.upgrade-features li:before{width:25px;height:25px;font-size:.76rem}.bonus-callout{margin:11px 11px 6px;padding:12px 10px;font-size:.9rem}.upgrade-price-box{margin:12px 11px 0;padding:16px 12px 14px}.upgrade-price-box .price{font-size:3.55rem}.upgrade-actions{padding:14px 11px 22px}.upgrade-cta{min-height:58px;font-size:.98rem;padding:13px 10px}.safe-line{font-size:.77rem;line-height:1.28;margin-top:16px}.upgrade-decline{font-size:.77rem;line-height:1.38;margin-top:18px}.upgrade-return{font-size:.75rem}.upgrade-foot{font-size:.7rem}
+      body.upgrade-page{font-size:16px}.upgrade-container{width:calc(100% - 24px);padding-top:12px;padding-bottom:45px}.upgrade-brand{margin-bottom:9px}.upgrade-brand img{width:154px}.offer-badge{max-width:calc(100vw - 32px);font-size:.72rem;padding:8px 11px;margin-bottom:12px;letter-spacing:.04em}.upgrade-hero{padding-left:2px;padding-right:2px}.upgrade-kicker{font-size:.74rem;margin-bottom:7px}.upgrade-title{max-width:100%;font-size:1.72rem;line-height:1.1;letter-spacing:-.032em}.upgrade-title .highlight{white-space:normal}.upgrade-subtitle{font-size:.96rem;margin-top:11px;padding:0 2px;line-height:1.43}.product-stage{width:90%;max-width:430px;margin:9px auto 14px;padding:4px 0}.product-stage img{width:100%;max-width:100%;margin:0 auto}.exclusive-note{font-size:.86rem;margin-bottom:13px;padding:11px 12px}.upgrade-card{border-radius:18px}.card-head{padding:19px 15px 10px}.card-head .mini{font-size:.72rem}.card-head h2{font-size:1.34rem}.card-head p{font-size:.89rem}.upgrade-features{padding:8px 11px 4px;gap:8px}.upgrade-features li{padding:11px 10px;font-size:.92rem;grid-template-columns:27px 1fr;gap:9px}.upgrade-features li:before{width:25px;height:25px;font-size:.76rem}.bonus-callout{margin:11px 11px 6px;padding:12px 10px;font-size:.9rem}.upgrade-price-box{margin:12px 11px 0;padding:16px 12px 14px}.upgrade-price-box .price{font-size:3.55rem}.upgrade-actions{padding:14px 11px 22px}.upgrade-cta{min-height:58px;font-size:.98rem;padding:13px 10px}.safe-line{font-size:.77rem;line-height:1.28;margin-top:16px}.upgrade-decline{font-size:.77rem;line-height:1.38;margin-top:18px}.upgrade-foot{font-size:.7rem}
     }
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
   </style>
@@ -119,15 +118,24 @@
         </div>
 
         <div class="upgrade-actions">
-          <a class="upgrade-cta" href="#" data-checkout="upgrade">SIM! QUERO O PACOTE UPGRADE MAX</a>
-          <div class="safe-line">Compra segura e acesso enviado após a confirmação do pagamento.</div>
-          <a class="upgrade-decline" href="#" data-checkout="basico">Não, obrigado. Prefiro continuar somente com o Plano Básico de R$10.</a>
-          <a class="upgrade-return" href="/#ofertas">← Voltar para comparar os pacotes</a>
+          <a class="upgrade-cta" href="#" data-checkout="upgrade">SIM, EU ACEITO O PLANO MAX!</a>
+          <a class="upgrade-decline" href="#" data-checkout="basico">Não Obrigado! Quero o plano Básico.</a>
         </div>
       </section>
 
       <footer class="upgrade-foot">Planilhas Práticas · <strong>Pacote Upgrade Max</strong></footer>
     </div>
   </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".upgrade-actions [data-checkout]").forEach((link) => {
+        if (!link.hidden) return;
+        link.hidden = false;
+        link.setAttribute("aria-disabled", "true");
+        link.addEventListener("click", (event) => event.preventDefault());
+      });
+    });
+  </script>
 </body>
 </html>
