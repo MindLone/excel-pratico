@@ -63,8 +63,10 @@
           <div class="main-video-slot" data-wistia-slot="main" aria-label="Vídeo de apresentação">
             <img
               class="main-video-cover"
-              src="/assets/capa-video-home.png"
+              src="/assets/capa-video-nova.png"
               alt="Aperte o play"
+              width="941"
+              height="1672"
               loading="eager"
               decoding="async"
             />
@@ -83,7 +85,7 @@
         background:#fff;
       }
       .main-video-shell{
-        width:min(100%,1040px);
+        width:min(100%,380px);
         margin:0 auto;
         padding:6px;
         border:2px solid var(--green);
@@ -94,7 +96,7 @@
       .main-video-slot{
         position:relative;
         width:100%;
-        aspect-ratio:16/9;
+        aspect-ratio:9/16;
         overflow:hidden;
         display:grid;
         place-items:center;
@@ -130,7 +132,11 @@
       }
       @media (max-width:640px){
         .main-video-section{padding:36px 0 38px}
-        .main-video-shell{padding:4px;border-radius:14px}
+        .main-video-shell{
+          width:min(92vw,380px);
+          padding:4px;
+          border-radius:14px;
+        }
         .main-video-slot{border-radius:10px}
         .main-video-cover{border-radius:10px}
       }
@@ -245,7 +251,7 @@
     const main = document.querySelector('[data-wistia-slot="main"]');
     if (main && cfg.WISTIA_VIDEO_PRINCIPAL) {
       main.innerHTML = "";
-      main.appendChild(wistiaEmbed(cfg.WISTIA_VIDEO_PRINCIPAL));
+      main.appendChild(wistiaEmbed(cfg.WISTIA_VIDEO_PRINCIPAL, "9 / 16"));
     }
 
     const reviewSlots = [
