@@ -60,17 +60,7 @@
     section.innerHTML = `
       <div class="container">
         <div class="main-video-shell">
-          <div class="main-video-slot" data-wistia-slot="main" aria-label="Vídeo de apresentação">
-            <img
-              class="main-video-cover"
-              src="/assets/capa-video-nova.png"
-              alt="Aperte o play"
-              width="941"
-              height="1672"
-              loading="eager"
-              decoding="async"
-            />
-          </div>
+          <div class="main-video-slot" data-wistia-slot="main" aria-label="Vídeo de apresentação"></div>
         </div>
         <div class="section-cta">
           <a class="text-cta" href="#ofertas">QUERO FACILITAR MINHA ROTINA <span aria-hidden="true">→</span></a>
@@ -105,15 +95,6 @@
           radial-gradient(circle at 50% 45%,rgba(49,190,125,.10),transparent 42%),
           linear-gradient(145deg,#f8fbf9,#eef7f2);
       }
-      .main-video-cover{
-        position:absolute;
-        inset:0;
-        width:100%;
-        height:100%;
-        object-fit:cover;
-        border-radius:12px;
-        display:block;
-      }
       .main-video-slot iframe,
       .main-video-slot wistia-player,
       .main-video-slot .wistia_embed{
@@ -138,7 +119,6 @@
           border-radius:14px;
         }
         .main-video-slot{border-radius:10px}
-        .main-video-cover{border-radius:10px}
       }
     `;
     document.head.appendChild(style);
@@ -250,8 +230,10 @@
   function configureWistia() {
     const main = document.querySelector('[data-wistia-slot="main"]');
     if (main && cfg.WISTIA_VIDEO_PRINCIPAL) {
-      main.innerHTML = "";
-      main.appendChild(wistiaEmbed(cfg.WISTIA_VIDEO_PRINCIPAL, "9 / 16"));
+      const player = document.createElement("wistia-player");
+      player.setAttribute("media-id", cfg.WISTIA_VIDEO_PRINCIPAL);
+      player.setAttribute("aspect", "0.5625");
+      main.replaceChildren(player);
     }
 
     const reviewSlots = [
