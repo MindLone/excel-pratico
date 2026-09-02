@@ -5,7 +5,7 @@ window.SITE_CONFIG = Object.freeze({
   LINK_COMPLETO: "",
   LINK_UPGRADE: "",
   EMAIL_SUPORTE: "academiadigital10@gmail.com",
-  WISTIA_VIDEO_PRINCIPAL: "",
+  WISTIA_VIDEO_PRINCIPAL: "pl2w0l88m9",
   WISTIA_DEPOIMENTO_1: "",
   WISTIA_DEPOIMENTO_2: ""
 });
