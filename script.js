@@ -64,6 +64,21 @@
       showProtectionNotice();
     }, { capture: true });
 
+    document.addEventListener("keydown", (event) => {
+      const key = event.key.toLowerCase();
+      const primaryModifier = event.ctrlKey || event.metaKey;
+      const blockedSourceShortcut = primaryModifier && key === "u";
+      const blockedDevToolsShortcut =
+        key === "f12" ||
+        (primaryModifier && event.shiftKey && ["i", "j", "c", "l"].includes(key));
+
+      if (!blockedSourceShortcut && !blockedDevToolsShortcut) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      showProtectionNotice();
+    }, { capture: true });
+
     document.addEventListener("dragstart", (event) => {
       if (event.target instanceof HTMLImageElement) event.preventDefault();
     });
