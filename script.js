@@ -3,6 +3,72 @@
 
   const cfg = window.SITE_CONFIG || {};
 
+
+  function configureContentProtection() {
+    let rightClickAttempts = 0;
+    let attemptsTimer;
+    let hideTimer;
+    let notice;
+
+    function showProtectionNotice() {
+      if (!notice) {
+        notice = document.createElement("div");
+        notice.setAttribute("role", "status");
+        notice.setAttribute("aria-live", "polite");
+        notice.textContent = "Conteúdo protegido por direitos autorais. Cópia ou reprodução sem autorização é proibida.";
+        Object.assign(notice.style, {
+          position: "fixed",
+          zIndex: "2147483647",
+          left: "50%",
+          bottom: "22px",
+          width: "min(560px, calc(100vw - 28px))",
+          padding: "14px 18px",
+          border: "1px solid rgba(108, 231, 169, .4)",
+          borderRadius: "12px",
+          background: "rgba(7, 27, 18, .96)",
+          color: "#ffffff",
+          boxShadow: "0 16px 42px rgba(0, 0, 0, .28)",
+          font: "700 13px/1.45 Inter, system-ui, sans-serif",
+          textAlign: "center",
+          pointerEvents: "none",
+          opacity: "0",
+          transform: "translate(-50%, 12px)",
+          transition: "opacity .2s ease, transform .2s ease"
+        });
+        document.body.appendChild(notice);
+      }
+
+      clearTimeout(hideTimer);
+      requestAnimationFrame(() => {
+        notice.style.opacity = "1";
+        notice.style.transform = "translate(-50%, 0)";
+      });
+      hideTimer = setTimeout(() => {
+        notice.style.opacity = "0";
+        notice.style.transform = "translate(-50%, 12px)";
+      }, 3200);
+    }
+
+    document.addEventListener("contextmenu", (event) => {
+      if (event.target.closest("input, textarea, [contenteditable='true']")) return;
+
+      event.preventDefault();
+      rightClickAttempts += 1;
+      clearTimeout(attemptsTimer);
+      attemptsTimer = setTimeout(() => {
+        rightClickAttempts = 0;
+      }, 4000);
+
+      if (rightClickAttempts < 2) return;
+      rightClickAttempts = 0;
+      showProtectionNotice();
+    }, { capture: true });
+
+    document.addEventListener("dragstart", (event) => {
+      if (event.target instanceof HTMLImageElement) event.preventDefault();
+    });
+  }
+
   function updateDate() {
     const target = document.querySelector("#promo-date");
     if (!target) return;
@@ -265,6 +331,7 @@
     targets.forEach((el) => observer.observe(el));
   }
 
+  configureContentProtection();
   updateDate();
   updateYear();
   configureCheckoutLinks();
