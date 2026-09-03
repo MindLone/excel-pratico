@@ -102,6 +102,15 @@
     });
   }
 
+  function updateContactEmail() {
+    const oldEmail = "academiadigital10@gmail.com";
+    const newEmail = "excelavancadoea@gmail.com";
+    document.querySelectorAll(`a[href="mailto:${oldEmail}"]`).forEach((link) => {
+      link.href = `mailto:${newEmail}`;
+      link.textContent = newEmail;
+    });
+  }
+
   function configureCheckoutLinks() {
     const map = {
       completo: cfg.LINK_COMPLETO,
@@ -349,6 +358,7 @@
   configureContentProtection();
   updateDate();
   updateYear();
+  updateContactEmail();
   configureCheckoutLinks();
   configureFaq();
   configureMainVideoSection();
