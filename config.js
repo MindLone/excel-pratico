@@ -2,7 +2,7 @@ window.SITE_CONFIG = Object.freeze({
   PRECO_BASICO: "10",
   LINK_BASICO: "",
   PRECO_COMPLETO: "19,90",
-  LINK_COMPLETO: "",
+  LINK_COMPLETO: "https://pay.cakto.com.br/5za2fdb_1082660",
   LINK_UPGRADE: "",
   EMAIL_SUPORTE: "academiadigital10@gmail.com",
   WISTIA_VIDEO_PRINCIPAL: "pl2w0l88m9",
