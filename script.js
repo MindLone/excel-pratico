@@ -220,9 +220,6 @@
 
     const viewport = carousel.querySelector(".reviews-viewport");
     const track = carousel.querySelector(".reviews-track");
-    const cards = [...track.children];
-    const toggle = carousel.querySelector("[data-reviews-toggle]");
-    const dialog = document.querySelector(".review-dialog");
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const pauses = new Set(["offscreen"]);
     let userPaused = motion.matches;
@@ -231,13 +228,25 @@
     let position = 0;
     let loopWidth = 0;
     let interactionTimer;
-    let pointerStart = 0;
-    let dragged = false;
-    let savedOverflow;
+
+    document.querySelector(".review-dialog")?.remove();
+    carousel.querySelector(".reviews-controls")?.remove();
+    const hint = carousel.querySelector(".reviews-hint");
+    if (hint) hint.textContent = "Deslize para ver mais.";
+
+    const cards = [...track.children].map((card) => {
+      if (card.tagName !== "BUTTON") return card;
+      const staticCard = document.createElement("div");
+      staticCard.className = card.className;
+      staticCard.innerHTML = card.innerHTML;
+      card.replaceWith(staticCard);
+      return staticCard;
+    });
 
     const cueStyle = document.createElement("style");
     cueStyle.textContent = `
       .reviews-carousel{position:relative}
+      .review-card{cursor:default!important;pointer-events:none;user-select:none}
       .reviews-carousel::after{
         content:"›";
         position:absolute;
@@ -267,7 +276,6 @@
     cards.forEach((card) => {
       const clone = card.cloneNode(true);
       clone.setAttribute("aria-hidden", "true");
-      clone.tabIndex = -1;
       clone.querySelector("img").alt = "";
       track.appendChild(clone);
     });
@@ -296,8 +304,6 @@
         previousTime = 0;
         frame = requestAnimationFrame(animate);
       }
-      toggle.textContent = userPaused ? "Continuar" : "Pausar";
-      toggle.setAttribute("aria-label", userPaused ? "Continuar movimento das avaliações" : "Pausar movimento das avaliações");
     };
 
     const pause = (reason, active) => {
@@ -327,24 +333,11 @@
       viewport.scrollTo({ left: target, behavior: motion.matches ? "auto" : "smooth" });
     };
 
-    toggle.addEventListener("click", () => {
-      userPaused = !userPaused;
-      updatePlayback();
-    });
-    carousel.querySelector("[data-reviews-previous]").addEventListener("click", () => move(-1));
-    carousel.querySelector("[data-reviews-next]").addEventListener("click", () => move(1));
     viewport.addEventListener("pointerenter", (event) => {
       if (event.pointerType === "mouse") pause("hover", true);
     });
     viewport.addEventListener("pointerleave", () => pause("hover", false));
-    viewport.addEventListener("pointerdown", (event) => {
-      pointerStart = event.clientX;
-      dragged = false;
-      pause("pointer", true);
-    }, { passive: true });
-    viewport.addEventListener("pointermove", (event) => {
-      if (pauses.has("pointer") && Math.abs(event.clientX - pointerStart) > 8) dragged = true;
-    }, { passive: true });
+    viewport.addEventListener("pointerdown", () => pause("pointer", true), { passive: true });
     const releasePointer = () => {
       if (!pauses.has("pointer")) return;
       allowReading();
@@ -362,28 +355,6 @@
       event.preventDefault();
       move(event.key === "ArrowRight" ? 1 : -1);
     });
-    viewport.addEventListener("click", (event) => {
-      const card = event.target.closest(".review-card");
-      if (!card || dragged) return;
-      const image = card.querySelector("img");
-      const fullImage = dialog.querySelector("img");
-      fullImage.src = image.src;
-      fullImage.alt = image.alt || card.getAttribute("aria-label");
-      pause("dialog", true);
-      savedOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      dialog.showModal();
-    });
-    dialog.querySelector(".review-dialog-close").addEventListener("click", () => dialog.close());
-    dialog.addEventListener("click", (event) => {
-      if (event.target !== dialog) return;
-      const bounds = dialog.getBoundingClientRect();
-      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
-    });
-    dialog.addEventListener("close", () => {
-      document.body.style.overflow = savedOverflow;
-      pause("dialog", false);
-    });
     document.addEventListener("visibilitychange", () => pause("hidden", document.hidden));
     motion.addEventListener("change", (event) => {
       userPaused = event.matches;
@@ -393,7 +364,6 @@
     visibility.observe(viewport);
     new ResizeObserver(measure).observe(viewport);
     measure();
-    carousel.querySelector(".reviews-controls")?.remove();
     updatePlayback();
   }
 
