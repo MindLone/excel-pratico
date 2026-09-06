@@ -121,17 +121,37 @@
     <section class="section package-overview" aria-labelledby="overview-title">
       <div class="container">
         <div class="section-heading center">
-          <p class="eyebrow eyebrow-light">MAIS DE 5.000 CLIENTES SATISFEITOS!</p>
-          <h2 id="overview-title">Veja avaliações reais de alguns dos nossos clientes:</h2>
+          <p class="eyebrow eyebrow-light">MILHARES DE CLIENTES SATISFEITOS!</p>
+          <h2 id="overview-title">Veja avaliações de alguns dos nossos clientes:</h2>
         </div>
-        <div class="overview-grid">
-          <article><span>01</span><h3>Finanças e controle</h3><p>Modelos para acompanhar entradas, saídas, orçamento, fluxo de caixa, metas e organização financeira.</p></article>
-          <article><span>02</span><h3>Vendas e estoque</h3><p>Planilhas para registrar vendas, acompanhar produtos, movimentações, resultados e controles operacionais.</p></article>
-          <article><span>03</span><h3>Gestão e administrativo</h3><p>Modelos para processos, cadastros, indicadores, planejamento e acompanhamento de atividades.</p></article>
-          <article><span>04</span><h3>Pessoal e produtividade</h3><p>Controles para metas, planejamento, rotina, organização e uso pessoal.</p></article>
-          <article><span>05</span><h3>Dashboards</h3><p>Modelos visuais para transformar informações em indicadores mais fáceis de acompanhar.</p></article>
-          <article><span>06</span><h3>Conteúdos extras</h3><p>No Plano Completo, a biblioteca vem acompanhada por materiais adicionais, templates e conteúdos de apoio.</p></article>
+        <div class="reviews-carousel" role="region" aria-roledescription="carrossel" aria-label="Avaliações dos clientes" data-reviews-carousel>
+          <div class="reviews-viewport" id="reviews-viewport" tabindex="0" aria-label="Deslize para ver as avaliações">
+            <div class="reviews-track">
+              <button class="review-card" type="button" aria-label="Ampliar avaliações de Bruno, Eva e Wellyton">
+                <img src="/assets/avaliacoes/bruno-eva-wellyton.webp" alt="Bruno recomenda o vendedor; Eva elogia a organização das planilhas; Wellyton elogia o suporte." width="1086" height="1448" loading="lazy" decoding="async" />
+              </button>
+              <button class="review-card" type="button" aria-label="Ampliar avaliações de Ingara e Fernando">
+                <img src="/assets/avaliacoes/ingara-fernando.webp" alt="Ingara conta que recebeu o conteúdo e gostou; Fernando considera o material de grande utilidade." width="1086" height="1448" loading="lazy" decoding="async" />
+              </button>
+              <button class="review-card" type="button" aria-label="Ampliar avaliações de Hudsson e Josi">
+                <img src="/assets/avaliacoes/hudsson-josi.webp" alt="Hudsson relata o recebimento do acesso por e-mail; Josi destaca a variedade de planilhas." width="1086" height="1448" loading="lazy" decoding="async" />
+              </button>
+              <button class="review-card" type="button" aria-label="Ampliar avaliações de Welbert, Luana e Bazar Tucum">
+                <img src="/assets/avaliacoes/welbert-luana-bazar.webp" alt="Welbert e Luana elogiam o material; Bazar Tucum comenta sobre as videoaulas e as fórmulas prontas." width="1086" height="1448" loading="lazy" decoding="async" />
+              </button>
+            </div>
+          </div>
+          <div class="reviews-controls" hidden>
+            <button type="button" class="reviews-arrow" data-reviews-previous aria-controls="reviews-viewport" aria-label="Avaliação anterior"><span aria-hidden="true">←</span></button>
+            <button type="button" class="reviews-toggle" data-reviews-toggle aria-controls="reviews-viewport" aria-label="Pausar movimento das avaliações">Pausar</button>
+            <button type="button" class="reviews-arrow" data-reviews-next aria-controls="reviews-viewport" aria-label="Próxima avaliação"><span aria-hidden="true">→</span></button>
+          </div>
+          <p class="reviews-hint">Deslize para ver mais. Toque na imagem para ampliar.</p>
         </div>
+        <dialog class="review-dialog" aria-label="Avaliação ampliada">
+          <button class="review-dialog-close" type="button" aria-label="Fechar avaliação ampliada" autofocus>Fechar <span aria-hidden="true">×</span></button>
+          <img width="1086" height="1448" alt="" />
+        </dialog>
       </div>
     </section>
 
