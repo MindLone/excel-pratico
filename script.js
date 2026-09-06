@@ -214,107 +214,159 @@
     document.head.appendChild(style);
   }
 
-  function configureReviewVideoSection() {
-    const section = document.querySelector(".package-overview");
-    const oldGrid = section?.querySelector(".overview-grid");
-    if (!section || !oldGrid) return;
+  function configureReviewsCarousel() {
+    const carousel = document.querySelector("[data-reviews-carousel]");
+    if (!carousel) return;
 
-    oldGrid.className = "review-video-grid";
-    oldGrid.innerHTML = `
-      <div class="review-video-shell">
-        <div class="review-video-slot" data-wistia-slot="review-1" aria-label="Avaliação em vídeo 1"></div>
-      </div>
-      <div class="review-video-shell">
-        <div class="review-video-slot" data-wistia-slot="review-2" aria-label="Avaliação em vídeo 2"></div>
-      </div>
-    `;
+    const viewport = carousel.querySelector(".reviews-viewport");
+    const track = carousel.querySelector(".reviews-track");
+    const cards = [...track.children];
+    const toggle = carousel.querySelector("[data-reviews-toggle]");
+    const dialog = document.querySelector(".review-dialog");
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pauses = new Set(["offscreen"]);
+    let userPaused = motion.matches;
+    let frame = null;
+    let previousTime = 0;
+    let position = 0;
+    let loopWidth = 0;
+    let interactionTimer;
+    let pointerStart = 0;
+    let dragged = false;
+    let savedOverflow;
 
-    const style = document.createElement("style");
-    style.textContent = `
-      .package-overview .review-video-grid{
-        width:min(100%,1080px);
-        margin:34px auto 0;
-        display:grid;
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:22px;
-        align-items:center;
-      }
-      .review-video-shell{
-        position:relative;
-        padding:5px;
-        border:1px solid rgba(94,224,159,.52);
-        border-radius:17px;
-        background:linear-gradient(145deg,rgba(88,217,152,.13),rgba(255,255,255,.025));
-        box-shadow:0 20px 50px rgba(0,0,0,.22),0 0 0 1px rgba(255,255,255,.025) inset;
-      }
-      .review-video-slot{
-        position:relative;
-        width:100%;
-        aspect-ratio:16/9;
-        overflow:hidden;
-        display:grid;
-        place-items:center;
-        border-radius:12px;
-        background:
-          radial-gradient(circle at 50% 45%,rgba(76,218,147,.13),transparent 35%),
-          linear-gradient(145deg,#10271d,#08140f);
-      }
-      .review-video-slot iframe,
-      .review-video-slot wistia-player,
-      .review-video-slot .wistia_embed{
-        position:absolute!important;
-        inset:0!important;
-        width:100%!important;
-        height:100%!important;
-        border:0!important;
-        border-radius:12px!important;
-        overflow:hidden!important;
-        display:block!important;
-      }
-      .review-video-slot:empty::before{
-        content:"";
-        width:62px;
-        height:62px;
-        border-radius:50%;
-        border:1px solid rgba(95,224,159,.38);
-        background:rgba(255,255,255,.055);
-        box-shadow:0 10px 30px rgba(0,0,0,.22),0 0 25px rgba(88,217,152,.08);
-      }
-      .review-video-slot:empty::after{
-        content:"";
-        position:absolute;
-        left:50%;
-        top:50%;
-        transform:translate(-38%,-50%);
-        width:0;
-        height:0;
-        border-top:9px solid transparent;
-        border-bottom:9px solid transparent;
-        border-left:14px solid #61dfa0;
-      }
-      @media (max-width:760px){
-        .package-overview .review-video-grid{
-          width:min(100%,580px);
-          grid-template-columns:1fr;
-          gap:16px;
-          margin-top:26px;
-        }
-        .review-video-shell{padding:4px;border-radius:14px}
-        .review-video-slot{border-radius:10px}
-      }
-    `;
-    document.head.appendChild(style);
-  }
+    // A second copy makes the visual loop continuous; assistive technology reads each review once.
+    cards.forEach((card) => {
+      const clone = card.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.tabIndex = -1;
+      clone.querySelector("img").alt = "";
+      track.appendChild(clone);
+    });
 
-  function wistiaEmbed(mediaId, ratio = "16 / 9") {
-    const frame = document.createElement("iframe");
-    frame.src = `https://fast.wistia.net/embed/iframe/${encodeURIComponent(mediaId)}?seo=false&videoFoam=true`;
-    frame.allow = "autoplay; fullscreen";
-    frame.allowFullscreen = true;
-    frame.loading = "lazy";
-    frame.title = "Vídeo";
-    frame.style.aspectRatio = ratio;
-    return frame;
+    const measure = () => {
+      loopWidth = track.children[cards.length].offsetLeft - cards[0].offsetLeft;
+      position = viewport.scrollLeft;
+    };
+
+    const animate = (now) => {
+      if (previousTime) position += Math.min(now - previousTime, 64) * .012;
+      previousTime = now;
+      if (loopWidth > 0 && position >= loopWidth) position %= loopWidth;
+      viewport.scrollLeft = position;
+      frame = requestAnimationFrame(animate);
+    };
+
+    const updatePlayback = () => {
+      const playing = !userPaused && pauses.size === 0;
+      if (!playing && frame !== null) {
+        cancelAnimationFrame(frame);
+        frame = null;
+      }
+      if (playing && frame === null) {
+        position = viewport.scrollLeft;
+        previousTime = 0;
+        frame = requestAnimationFrame(animate);
+      }
+      toggle.textContent = userPaused ? "Continuar" : "Pausar";
+      toggle.setAttribute("aria-label", userPaused ? "Continuar movimento das avaliações" : "Pausar movimento das avaliações");
+    };
+
+    const pause = (reason, active) => {
+      if (active) pauses.add(reason);
+      else pauses.delete(reason);
+      updatePlayback();
+    };
+
+    const allowReading = () => {
+      clearTimeout(interactionTimer);
+      pause("reading", true);
+      interactionTimer = setTimeout(() => pause("reading", false), 8000);
+    };
+
+    const move = (direction) => {
+      allowReading();
+      measure();
+      const step = cards[1].offsetLeft - cards[0].offsetLeft;
+      let target = (Math.round(viewport.scrollLeft / step) + direction) * step;
+      if (target < 0) {
+        viewport.scrollLeft += loopWidth;
+        target += loopWidth;
+      } else if (target > loopWidth) {
+        viewport.scrollLeft -= loopWidth;
+        target -= loopWidth;
+      }
+      viewport.scrollTo({ left: target, behavior: motion.matches ? "auto" : "smooth" });
+    };
+
+    toggle.addEventListener("click", () => {
+      userPaused = !userPaused;
+      updatePlayback();
+    });
+    carousel.querySelector("[data-reviews-previous]").addEventListener("click", () => move(-1));
+    carousel.querySelector("[data-reviews-next]").addEventListener("click", () => move(1));
+    viewport.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") pause("hover", true);
+    });
+    viewport.addEventListener("pointerleave", () => pause("hover", false));
+    viewport.addEventListener("pointerdown", (event) => {
+      pointerStart = event.clientX;
+      dragged = false;
+      pause("pointer", true);
+    }, { passive: true });
+    viewport.addEventListener("pointermove", (event) => {
+      if (pauses.has("pointer") && Math.abs(event.clientX - pointerStart) > 8) dragged = true;
+    }, { passive: true });
+    const releasePointer = () => {
+      if (!pauses.has("pointer")) return;
+      allowReading();
+      pause("pointer", false);
+    };
+    window.addEventListener("pointerup", releasePointer, { passive: true });
+    window.addEventListener("pointercancel", releasePointer, { passive: true });
+    viewport.addEventListener("wheel", allowReading, { passive: true });
+    viewport.addEventListener("focusin", () => pause("focus", true));
+    viewport.addEventListener("focusout", () => {
+      queueMicrotask(() => pause("focus", viewport.contains(document.activeElement)));
+    });
+    viewport.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      move(event.key === "ArrowRight" ? 1 : -1);
+    });
+    viewport.addEventListener("click", (event) => {
+      const card = event.target.closest(".review-card");
+      if (!card || dragged) return;
+      const image = card.querySelector("img");
+      const fullImage = dialog.querySelector("img");
+      fullImage.src = image.src;
+      fullImage.alt = image.alt || card.getAttribute("aria-label");
+      pause("dialog", true);
+      savedOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      dialog.showModal();
+    });
+    dialog.querySelector(".review-dialog-close").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    });
+    dialog.addEventListener("close", () => {
+      document.body.style.overflow = savedOverflow;
+      pause("dialog", false);
+    });
+    document.addEventListener("visibilitychange", () => pause("hidden", document.hidden));
+    motion.addEventListener("change", (event) => {
+      userPaused = event.matches;
+      updatePlayback();
+    });
+    const visibility = new IntersectionObserver(([entry]) => pause("offscreen", !entry.isIntersecting), { threshold: .1 });
+    visibility.observe(viewport);
+    new ResizeObserver(measure).observe(viewport);
+    measure();
+    carousel.querySelector(".reviews-controls").hidden = false;
+    updatePlayback();
   }
 
   function configureWistia() {
@@ -326,24 +378,13 @@
       main.replaceChildren(player);
     }
 
-    const reviewSlots = [
-      [document.querySelector('[data-wistia-slot="review-1"]'), cfg.WISTIA_DEPOIMENTO_1],
-      [document.querySelector('[data-wistia-slot="review-2"]'), cfg.WISTIA_DEPOIMENTO_2]
-    ];
-
-    reviewSlots.forEach(([slot, mediaId]) => {
-      if (!slot || !mediaId) return;
-      slot.innerHTML = "";
-      slot.appendChild(wistiaEmbed(mediaId));
-    });
-
     const legacySection = document.querySelector("[data-testimonials]");
     if (legacySection) legacySection.hidden = true;
   }
 
   function revealOnScroll() {
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const targets = document.querySelectorAll(".benefit-card, .gallery-card, .review-video-shell, .price-card, .guarantee-card");
+    const targets = document.querySelectorAll(".benefit-card, .gallery-card, .price-card, .guarantee-card");
     targets.forEach((el) => el.classList.add("reveal"));
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
@@ -362,7 +403,7 @@
   configureCheckoutLinks();
   configureFaq();
   configureMainVideoSection();
-  configureReviewVideoSection();
+  configureReviewsCarousel();
   configureWistia();
   revealOnScroll();
 })();
