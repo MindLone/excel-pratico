@@ -247,27 +247,36 @@
     cueStyle.textContent = `
       .reviews-carousel{position:relative}
       .review-card{cursor:default!important;pointer-events:none;user-select:none}
-      .reviews-carousel::after{
-        content:"›";
+      .reviews-nav{
         position:absolute;
-        right:4px;
+        z-index:4;
         top:46%;
         transform:translateY(-50%);
         width:30px;
         height:48px;
         display:grid;
         place-items:center;
+        padding:0;
         border:1px solid rgba(124,228,177,.18);
         border-radius:999px;
         background:rgba(13,28,21,.58);
         color:rgba(216,238,226,.78);
         font:300 28px/1 Inter,system-ui,sans-serif;
-        pointer-events:none;
+        cursor:pointer;
         backdrop-filter:blur(5px);
         box-shadow:0 8px 22px rgba(0,0,0,.12);
+        transition:background .18s ease,border-color .18s ease,transform .18s ease;
+      }
+      .reviews-nav-prev{left:4px}
+      .reviews-nav-next{right:4px}
+      .reviews-nav:focus-visible{outline:2px solid #7ce4b1;outline-offset:3px}
+      @media (hover:hover){
+        .reviews-nav:hover{background:rgba(13,28,21,.78);border-color:rgba(124,228,177,.42)}
       }
       @media (max-width:699px){
-        .reviews-carousel::after{right:-2px;width:26px;height:44px;font-size:25px}
+        .reviews-nav{width:26px;height:44px;font-size:25px}
+        .reviews-nav-prev{left:-2px}
+        .reviews-nav-next{right:-2px}
       }
     `;
     document.head.appendChild(cueStyle);
@@ -332,6 +341,22 @@
       }
       viewport.scrollTo({ left: target, behavior: motion.matches ? "auto" : "smooth" });
     };
+
+    const previousButton = document.createElement("button");
+    previousButton.type = "button";
+    previousButton.className = "reviews-nav reviews-nav-prev";
+    previousButton.setAttribute("aria-label", "Avaliação anterior");
+    previousButton.innerHTML = '<span aria-hidden="true">‹</span>';
+
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "reviews-nav reviews-nav-next";
+    nextButton.setAttribute("aria-label", "Próxima avaliação");
+    nextButton.innerHTML = '<span aria-hidden="true">›</span>';
+
+    previousButton.addEventListener("click", () => move(-1));
+    nextButton.addEventListener("click", () => move(1));
+    carousel.append(previousButton, nextButton);
 
     viewport.addEventListener("pointerenter", (event) => {
       if (event.pointerType === "mouse") pause("hover", true);
