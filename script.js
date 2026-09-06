@@ -235,6 +235,34 @@
     let dragged = false;
     let savedOverflow;
 
+    const cueStyle = document.createElement("style");
+    cueStyle.textContent = `
+      .reviews-carousel{position:relative}
+      .reviews-carousel::after{
+        content:"›";
+        position:absolute;
+        right:4px;
+        top:46%;
+        transform:translateY(-50%);
+        width:30px;
+        height:48px;
+        display:grid;
+        place-items:center;
+        border:1px solid rgba(124,228,177,.18);
+        border-radius:999px;
+        background:rgba(13,28,21,.58);
+        color:rgba(216,238,226,.78);
+        font:300 28px/1 Inter,system-ui,sans-serif;
+        pointer-events:none;
+        backdrop-filter:blur(5px);
+        box-shadow:0 8px 22px rgba(0,0,0,.12);
+      }
+      @media (max-width:699px){
+        .reviews-carousel::after{right:-2px;width:26px;height:44px;font-size:25px}
+      }
+    `;
+    document.head.appendChild(cueStyle);
+
     // A second copy makes the visual loop continuous; assistive technology reads each review once.
     cards.forEach((card) => {
       const clone = card.cloneNode(true);
@@ -250,7 +278,7 @@
     };
 
     const animate = (now) => {
-      if (previousTime) position += Math.min(now - previousTime, 64) * .012;
+      if (previousTime) position += Math.min(now - previousTime, 64) * .022;
       previousTime = now;
       if (loopWidth > 0 && position >= loopWidth) position %= loopWidth;
       viewport.scrollLeft = position;
@@ -365,7 +393,7 @@
     visibility.observe(viewport);
     new ResizeObserver(measure).observe(viewport);
     measure();
-    carousel.querySelector(".reviews-controls").hidden = false;
+    carousel.querySelector(".reviews-controls")?.remove();
     updatePlayback();
   }
 
