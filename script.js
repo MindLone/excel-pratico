@@ -252,8 +252,8 @@
         z-index:4;
         top:46%;
         transform:translateY(-50%);
-        width:30px;
-        height:48px;
+        width:36px;
+        height:54px;
         display:grid;
         place-items:center;
         padding:0;
@@ -261,7 +261,7 @@
         border-radius:999px;
         background:rgba(13,28,21,.58);
         color:rgba(216,238,226,.78);
-        font:300 28px/1 Inter,system-ui,sans-serif;
+        font:300 30px/1 Inter,system-ui,sans-serif;
         cursor:pointer;
         backdrop-filter:blur(5px);
         box-shadow:0 8px 22px rgba(0,0,0,.12);
@@ -274,7 +274,7 @@
         .reviews-nav:hover{background:rgba(13,28,21,.78);border-color:rgba(124,228,177,.42)}
       }
       @media (max-width:699px){
-        .reviews-nav{width:26px;height:44px;font-size:25px}
+        .reviews-nav{width:36px;height:52px;font-size:28px}
         .reviews-nav-prev{left:-2px}
         .reviews-nav-next{right:-2px}
       }
