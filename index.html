@@ -8,22 +8,27 @@
   <title>Planilhas Práticas | +75 mil planilhas editáveis</title>
   <link rel="preload" href="/assets/logo-fundo-claro.webp" as="image" type="image/webp" />
   <link rel="preload" href="/assets/plano-completo.webp" as="image" type="image/webp" />
-  <script src="https://fast.wistia.com/player.js" async></script>
-  <script src="https://fast.wistia.com/embed/pl2w0l88m9.js" async type="module"></script>
-  <style>
-    wistia-player[media-id='pl2w0l88m9']:not(:defined) {
-      display: block;
-      padding-top: 177.78%;
-      background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/pl2w0l88m9/swatch');
-      filter: blur(5px);
-    }
-  </style>
+
+  <!-- [Playrate] VSL Player Engine - Ultra Fast Loading -->
+  <style id="playrate-cta-initial-style">.playrate-cta { display: none !important; }</style>
+  <link rel="preconnect" href="https://cdn.playrate.pro" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.playrate.pro">
+  <link rel="preload" href="https://cdn.playrate.pro/playrate-player.min.js" as="script" fetchpriority="high">
+  <link rel="preconnect" href="https://pub-3f844ee1bbcd45bcbabf96613b73363b.r2.dev" crossorigin>
+  <link rel="dns-prefetch" href="https://pub-3f844ee1bbcd45bcbabf96613b73363b.r2.dev">
+  <script src="https://cdn.playrate.pro/playrate-player.min.js" defer></script>
+
   <link rel="stylesheet" href="/styles.css" />
   <style>
     .hero-logo{width:min(200px,58vw);height:60px;margin:0 auto 20px}
     .footer-logo{width:min(250px,72vw);margin-bottom:12px}
     .footer-logo img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}
+    .main-video-section{padding:54px 0 48px;background:#fff}
+    .main-video-shell{width:min(100%,380px);margin:0 auto;padding:6px;border:2px solid var(--green);border-radius:18px;background:linear-gradient(145deg,rgba(49,190,125,.14),rgba(15,111,70,.035));box-shadow:0 18px 48px rgba(20,112,70,.12)}
+    .main-video-shell>.playrate-vsl-container{aspect-ratio:9/16;overflow:hidden;border-radius:12px;background:#000}
+    .main-video-section .section-cta{margin-top:24px}
     @media(min-width:940px){.hero-logo{width:220px;height:68px;margin:0 0 26px}.footer-logo{width:250px}}
+    @media(max-width:640px){.main-video-section{padding:36px 0 38px}.main-video-shell{width:min(92vw,380px);padding:4px;border-radius:14px}.main-video-shell>.playrate-vsl-container{border-radius:10px}}
   </style>
   <script src="/config.js" defer></script>
   <script src="/script.js" defer></script>
@@ -55,22 +60,27 @@
           <div class="hero-stat hero-stat-b"><strong>10 bônus</strong><span>no pacote completo</span></div>
         </div>
       </div>
-      <div class="container hero-video-slot" data-wistia-slot="hero" hidden></div>
     </section>
 
-    <section class="section problem" aria-labelledby="problem-title">
+    <section class="section main-video-section" aria-label="Vídeo de apresentação">
       <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">MENOS TEMPO MONTANDO. MAIS TEMPO USANDO.</p>
-          <h2 id="problem-title">Pare de perder tempo criando controles que já poderiam estar prontos.</h2>
-          <p>Montar uma boa planilha do zero exige tempo, fórmulas, organização e testes. Quando a rotina aperta, é fácil acabar com anotações soltas, arquivos diferentes e controles improvisados.</p>
+        <div class="main-video-shell">
+          <div id="playrate-vsl-vsl-1789146098237"
+            class="playrate-vsl-container"
+            data-config="https://pub-3f844ee1bbcd45bcbabf96613b73363b.r2.dev/videos/vsl-1789146098237/config.json"
+            data-m3u8="https://pub-3f844ee1bbcd45bcbabf96613b73363b.r2.dev/videos/vsl-1789146098237/master.m3u8"
+            style="display: block; margin: 0 auto; width: 100%; position: relative;">
+            <div class="playrate-preload-wrapper" style="position: relative; width: 100%; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; color: #fff; border-radius: 12px;">
+              <div class="playrate-spinner" style="width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(farthest-side, #1db26c 94%, transparent) top/7px 7px no-repeat, conic-gradient(transparent 30%, #1db26c); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 0); animation: pr-spin .75s infinite linear;"></div>
+              <div class="playrate-pct" style="margin-top: 14px; font-size: 15px; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #ffffff; letter-spacing: -0.2px;">50%</div>
+            </div>
+            <style>@keyframes pr-spin { 100% { transform: rotate(360deg); } }</style>
+            <script>(function(){var w=document.getElementById('playrate-vsl-vsl-1789146098237');if(w){var p=w.querySelector('.playrate-pct');if(p){var n=50,t=setInterval(function(){n++;p.textContent=n+'%';if(n>=99)clearInterval(t);},25);}var m='https://pub-3f844ee1bbcd45bcbabf96613b73363b.r2.dev/videos/vsl-1789146098237/master.m3u8';if(m&&window.fetch){try{fetch(m,{mode:'cors',credentials:'omit'}).catch(function(){});var s=m.replace(/master\.m3u8(\?.*)?$/i,'360p.m3u8$1');if(s!==m)fetch(s,{mode:'cors',credentials:'omit'}).catch(function(){});}catch(e){}}var c='https://pub-3f844ee1bbcd45bcbabf96613b73363b.r2.dev/videos/vsl-1789146098237/config.json';if(c&&window.fetch){try{fetch(c,{mode:'cors',credentials:'omit'}).catch(function(){});}catch(e){}}}})();</script>
+          </div>
         </div>
-        <div class="problem-grid">
-          <article class="problem-item"><span class="number">01</span><div><h3>Tempo desperdiçado</h3><p>Em vez de começar pela estrutura, comece pelo que realmente importa: preencher, adaptar e usar.</p></div></article>
-          <article class="problem-item"><span class="number">02</span><div><h3>Informações espalhadas</h3><p>Centralize finanças, vendas, estoque, metas e outros controles em modelos organizados.</p></div></article>
-          <article class="problem-item"><span class="number">03</span><div><h3>Começar do zero toda vez</h3><p>Use estruturas prontas como ponto de partida e adapte cada arquivo para a sua realidade.</p></div></article>
+        <div class="section-cta">
+          <a class="text-cta" href="#ofertas">QUERO FACILITAR MINHA ROTINA <span aria-hidden="true">→</span></a>
         </div>
-        <div class="section-cta"><a class="text-cta" href="#ofertas">QUERO FACILITAR MINHA ROTINA <span aria-hidden="true">→</span></a></div>
       </div>
     </section>
 
